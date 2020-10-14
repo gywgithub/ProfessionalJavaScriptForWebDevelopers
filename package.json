@@ -1,0 +1,19 @@
+{
+  "name": "yes",
+  "version": "1.0.0",
+  "description": "> exercise project",
+  "main": "Chapter2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gywgithub/ProfessionalJavaScriptForWebDevelopers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gywgithub/ProfessionalJavaScriptForWebDevelopers/issues"
+  },
+  "homepage": "https://github.com/gywgithub/ProfessionalJavaScriptForWebDevelopers#readme"
+}
