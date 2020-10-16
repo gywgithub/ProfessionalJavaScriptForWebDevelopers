@@ -184,3 +184,101 @@ printRaw`\u00A9${ 'and' }\n`;
 // Escaped characters;
 // \u00A9
 // \n
+
+console.log('------------------------------------');
+
+let sym = Symbol();
+console.log(typeof sym); // symbol
+
+let genericSymbol = Symbol();
+let otherGenericSymbol = Symbol();
+
+let fooSymbol = Symbol('foo');
+let otherFooSymbol = Symbol('foo');
+
+console.log(genericSymbol == otherGenericSymbol); // false
+console.log(fooSymbol == otherFooSymbol); // false
+
+console.log(genericSymbol); // Symbol()
+console.log(fooSymbol); //  Symbol(foo)
+
+let myBoolean = new Boolean();
+console.log(typeof myBoolean); // 'object'
+
+let myString = new String();
+console.log(typeof myString); // 'object'
+
+let myNumber = new Number();
+console.log(typeof myNumber); // 'object'
+
+// let mySymbol = new Symbol(); // TypeError: Symbol is not a constructor
+// console.log(mySymbol);
+
+let mySymbol = Symbol();
+let myWrappedSymbol = Object(mySymbol);
+console.log(typeof myWrappedSymbol); // 'object'
+
+let fooGlobalSymbol = Symbol.for('foo');
+console.log(typeof fooGlobalSymbol); // 'symbol'
+
+let fooGlobalSymbol2 = Symbol.for('foo');
+let otherFooGlobalSymbol2 = Symbol.for('foo');
+console.log(fooGlobalSymbol2 === otherFooGlobalSymbol2); // true
+
+let localSymbol = Symbol('foo');
+let globalSymbol = Symbol.for('foo');
+console.log(localSymbol === globalSymbol); // false
+
+let emptyGlobalSymbol = Symbol.for();
+console.log(emptyGlobalSymbol);
+
+let s = Symbol.for('foo');
+console.log(Symbol.keyFor(s)); // foo
+
+let s2 = Symbol('bar');
+console.log(Symbol.keyFor(s2)); // undefined
+
+// Symbol.keyFor(123); // TypeError: 123 is not a symbol
+
+// ********** Start ***********
+let s3 = Symbol('foo'),
+    s4 = Symbol('bar'),
+    s5 = Symbol('baz'),
+    s6 = Symbol('qux');
+
+let o = {
+  [s3]: 'foo val'
+};
+
+// o[s3] = 'foo val';
+console.log(o); // { [Symbol(foo)]: 'foo val' }
+
+Object.defineProperty(o, s4, {value: 'bar val'});
+console.log(1);
+console.log(o); // { [Symbol(foo)]: 'foo val' } 提示： 这里为本地node环境输出结果。Chrome 浏览器结果为：{Symbol(foo): 'foo val',Symbol(bar): 'bar val' }
+
+Object.defineProperties(o, {
+  [s5]: {value: 'baz val'},
+  [s6]: {value: 'qux val'}
+});
+console.log(o); // { [Symbol(foo)]: 'foo val' } 提示： 这里为本地node环境输出结果。Chrome 浏览器结果为：{Symbol(foo): 'foo val',Symbol(bar): 'bar val', Symbol(baz): 'baz val', Symbol(qux): 'qux val' }
+
+
+console.log('-------------------------------');
+
+let s7 = Symbol('foo'),
+    s8 = Symbol('bar');
+
+let o1 = {
+  [s7]: 'foo val',
+  [s8]: 'bar val',
+  baz: 'baz val',
+  qux: 'qux val'
+};
+
+console.log(Object.getOwnPropertySymbols(o1)); // [ Symbol(foo), Symbol(bar) ]
+console.log(Object.getOwnPropertyNames(o1)); // [ 'bar', 'qux' ]
+console.log(Object.getOwnPropertyDescriptors(o1)); // {bar: {...}, qux: {...}, [Symbol(foo)]: {...}, [Symbol(bar): {...}]} Node.  Chrome: {baz: {…}, qux: {…}, Symbol(foo): {…}, Symbol(bar): {…}}
+console.log(Reflect.ownKeys(o1)); // [ 'baz', 'qux', Symbol(foo), Symbol(bar) ]
+
+// *********** End ************  Chorme 浏览器和 《JavaScript 高级程序设计 （第4版）》效果一致
