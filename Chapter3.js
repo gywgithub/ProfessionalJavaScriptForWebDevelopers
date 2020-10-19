@@ -281,4 +281,124 @@ console.log(Object.getOwnPropertyNames(o1)); // [ 'bar', 'qux' ]
 console.log(Object.getOwnPropertyDescriptors(o1)); // {bar: {...}, qux: {...}, [Symbol(foo)]: {...}, [Symbol(bar): {...}]} Node.  Chrome: {baz: {…}, qux: {…}, Symbol(foo): {…}, Symbol(bar): {…}}
 console.log(Reflect.ownKeys(o1)); // [ 'baz', 'qux', Symbol(foo), Symbol(bar) ]
 
-// *********** End ************  Chorme 浏览器和 《JavaScript 高级程序设计 （第4版）》效果一致
+let o2 = {
+  [Symbol('foo')]: 'foo val',
+  [Symbol('bar')]: 'bar val'
+};
+
+console.log(o2); // { [Symbol(foo)]: 'foo val', [Symbol(bar)]: 'bar val' }
+
+let barSymbol = Object.getOwnPropertySymbols(o2).find((symbol) => symbol.toString().match(/bar/));
+console.log(barSymbol); // Symbol(bar)
+
+console.log('--------------------------------------');
+
+class Foo {
+  async *[Symbol.asyncIterator]() {}
+}
+
+let f = new Foo();
+
+console.log(f[Symbol.asyncIterator]()); // Node: Object [AsyncGenerator] {}   Chrome: AsyncGenerator {<suspended>}
+
+// *********** End ************  Chrome 浏览器和 《JavaScript 高级程序设计 （第4版）》效果一致
+
+class Emitter {
+  constructor(max) {
+    this.max = max;
+    this.asyncIdx = 0;
+  }
+
+  async *[Symbol.asyncIterator]() {
+    while(this.asyncIdx < this.max) {
+      yield new Promise((resolve) => resolve(this.asyncIdx++));
+    }
+  }
+}
+
+async function asyncCount() {
+  let emitter = new Emitter(5);
+
+  for await(const x of emitter) {
+    console.log(x);
+  }
+}
+
+// asyncCount()
+// 0
+// 1
+// 2
+// 3
+// 4
+
+console.log('---------------------------------------');
+
+function Foo2() {}
+let f2 = new Foo2();
+console.log(f2 instanceof Foo2); // true
+console.log(Foo2[Symbol.hasInstance](f2)); // true
+
+class Bar2 {}
+class Baz2 extends Bar2 {
+  static [Symbol.hasInstance]() {
+    return false;
+  }
+}
+let b2 = new Bar2();
+console.log(b2 instanceof Bar2); // true
+console.log(Bar2[Symbol.hasInstance](b2)); // true
+console.log(Baz2[Symbol.hasInstance](b2)); // false
+console.log(b2 instanceof Baz2); // false
+
+let initial = ['foo'];
+let array = ['bar'];
+console.log(array[Symbol.isConcatSpreadable]); // undefined
+console.log(initial.concat(array)); // ['foo', 'bar']
+array[Symbol.isConcatSpreadable] = false;
+console.log(initial.concat(array)); // ['foo', ['bar', [Symbol(Symbole.isConcatSpreadable)]: false ]]
+
+console.log('-----');
+
+let arrayLikeObject = { length: 1, 0: 'bar' };
+console.log(arrayLikeObject[Symbol.isConcatSpreadable]); // undefined
+console.log(initial.concat(arrayLikeObject)); // ['foo', {...}]
+arrayLikeObject[Symbol.isConcatSpreadable] = true;
+console.log(initial.concat(arrayLikeObject)); // ['foo', 'baz']
+
+console.log('=====');
+
+let otherObject = new Set().add('qux');
+console.log(otherObject[Symbol.isConcatSpreadable]); // undefined
+console.log(initial.concat(otherObject)); // ['foo', Set(1)]
+otherObject[Symbol.isConcatSpreadable] = true;
+console.log(initial.concat(otherObject)); // ['foo']
+
+console.log('*****');
+
+console.log(RegExp.prototype[Symbol.match]); // [Function: [Symbol.match]]
+
+console.log('foobar'.match(/bar/)); // [ 'bar', index: 3, input: 'foobar', groups: undefined]
+
+
+console.log('#####');
+
+class FooMatcher {
+  static [Symbol.match](target) {
+    return target.includes('foo');
+  }
+}
+
+console.log('foobar'.match(FooMatcher)); // true
+console.log('barbaz'.match(FooMatcher)); // false
+
+class StringMatcher {
+  constructor(str) {
+    this.str = str;
+  }
+  [Symbol.match](target) {
+    return target.includes(this.str);
+  }
+}
+
+console.log('foobar'.match(new StringMatcher('foo'))); // true
+console.log('barbaz'.match(new StringMatcher('qux'))); // false
