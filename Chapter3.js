@@ -456,3 +456,53 @@ class StringSearcher {
 console.log('foobar'.search(new StringSearcher('foo'))); // 0
 console.log('barfoo'.search(new StringSearcher('foo'))); // 3
 console.log('barbaz'.search(new StringSearcher('qux'))); // -1
+
+console.log('-----');
+
+class Bar3 extends Array {}
+class Baz3 extends Array {
+  static get [Symbol.species]() {
+    return Array;
+  }
+}
+
+let bar3 = new Bar3();
+console.log(bar3 instanceof Array); // true
+console.log(bar3 instanceof Bar3); // true
+bar3 = bar3.concat('bar');
+console.log(bar3 instanceof Array); // true
+console.log(bar3 instanceof Bar3); // true
+
+let baz3 = new Baz3();
+console.log(baz3 instanceof Array); // true
+console.log(baz3 instanceof Baz3); // true
+baz3 = baz3.concat('baz');
+console.log(baz3 instanceof Array); // true
+console.log(baz3 instanceof Baz3); // false
+console.log(baz3);
+
+console.log('#####');
+
+console.log(RegExp.prototype[Symbol.split]); // [Function: [Symbol.split]]
+console.log('foobarbaz'.split(/bar/)); // [ 'foo', 'baz' ]
+
+class FooSplitter {
+  static [Symbol.split](target) {
+    return target.split('foo');
+  }
+}
+
+console.log('barfoobaz'.split(FooSplitter)); // ['bar','baz']
+
+class StringSplitter {
+  constructor(str) {
+    this.str = str;
+  }
+
+  [Symbol.split](target) {
+    return target.split(this.str);
+  }
+}
+
+console.log('barfoobaz'.split(new StringSplitter('foo'))); // ['bar','baz']
+
