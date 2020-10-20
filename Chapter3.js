@@ -379,7 +379,6 @@ console.log(RegExp.prototype[Symbol.match]); // [Function: [Symbol.match]]
 
 console.log('foobar'.match(/bar/)); // [ 'bar', index: 3, input: 'foobar', groups: undefined]
 
-
 console.log('#####');
 
 class FooMatcher {
@@ -402,3 +401,58 @@ class StringMatcher {
 
 console.log('foobar'.match(new StringMatcher('foo'))); // true
 console.log('barbaz'.match(new StringMatcher('qux'))); // false
+console.log('foobar'.match(new StringMatcher('bar'))); // true
+
+console.log('@@@@@');
+
+console.log(RegExp.prototype[Symbol.replace]); // [Function: [Symbol.replace]]
+console.log('foobarbaz'.replace(/bar/, 'qux')); // fooquxbaz
+
+class FooReplacer {
+  static [Symbol.replace](target, replacement) {
+    return target.split('foo').join(replacement);
+  }
+}
+
+console.log('barfoobaz'.replace(FooReplacer, 'qux')); // barquxbaz
+
+class StringReplacer {
+  constructor(str) {
+    this.str = str;
+  }
+
+  [Symbol.replace](target, replacement) {
+    return target.split(this.str).join(replacement);
+  }
+}
+
+console.log('barfoobaz'.replace(new StringReplacer('foo'), 'qux')); // barquxbaz
+
+console.log('&&&&&');
+
+console.log(RegExp.prototype[Symbol.search]); // [Function: [Symbol.search]]
+console.log('foobar'.search(/bar/)); // 3
+
+class FooSearcher {
+  static [Symbol.search](target) {
+    return target.indexOf('foo');
+  }
+}
+
+console.log('foobar'.search(FooSearcher)); // 0
+console.log('barfoo'.search(FooSearcher)); // 3
+console.log('barbaz'.search(FooSearcher)); // -1
+
+class StringSearcher {
+  constructor(str) {
+    this.str = str;
+  }
+
+  [Symbol.search](target) {
+    return target.indexOf(this.str);
+  }
+}
+
+console.log('foobar'.search(new StringSearcher('foo'))); // 0
+console.log('barfoo'.search(new StringSearcher('foo'))); // 3
+console.log('barbaz'.search(new StringSearcher('qux'))); // -1
