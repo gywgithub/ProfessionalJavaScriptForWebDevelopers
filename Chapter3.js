@@ -506,3 +506,79 @@ class StringSplitter {
 
 console.log('barfoobaz'.split(new StringSplitter('foo'))); // ['bar','baz']
 
+console.log('------')
+
+class Foo4 {}
+let foo4 = new Foo4();
+
+console.log(3 + foo4); // 3[object Object]
+console.log(3 - foo4); // NaN
+console.log(String(foo4)); // [object Object]
+
+class Bar4 {
+  constructor() {
+    this[Symbol.toPrimitive] = function(hint) {
+      console.log(hint);
+      switch (hint) {
+        case 'number':
+          return 3;
+        case 'string':
+          return 'string bar';
+        case 'default':
+        default:
+          return 'default bar';
+      }
+    }
+  }
+}
+
+let bar4 = new Bar4();
+
+console.log(3 + bar4); // 3default bar
+console.log(3 - bar4); // 0
+console.log(String(bar4)); // string bar
+
+console.log('@@@@@@');
+
+let s51 = new Set();
+console.log(s51); // Set {}
+console.log(s51.toString()); // [object Set]
+console.log(s51[Symbol.toStringTag]); // Set
+
+class Foo5 {}
+let foo5 = new Foo5();
+
+console.log(foo5); // Foo5 {}
+console.log(foo5.toString()); // [object Object]
+console.log(foo5[Symbol.toStringTag]); // undefined
+
+class Bar5 {
+  constructor() {
+    this[Symbol.toStringTag] = 'Bar';
+  }
+}
+
+let bar5 = new Bar5();
+console.log(bar5); // Bar5 [Bar] { [Symbol(Symbol.toStringTag)]: 'Bar' }
+console.log(bar5.toString()); // [object Bar]
+console.log(bar5[Symbol.toStringTag]); // Bar
+
+console.log('######');
+
+let o6 = { foo: 'bar' };
+
+// 不推荐使用 with, Symbol.unscopables
+with (o6) {
+  console.log(foo); // bar
+}
+
+o6[Symbol.unscopables] = {
+  foo: true
+};
+
+// 不推荐使用 with, Symbol.unscopables
+with (o6) {
+  console.log(foo);
+}
+
+console.log('******')
