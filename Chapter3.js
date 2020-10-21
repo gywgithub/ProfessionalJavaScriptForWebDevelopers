@@ -582,3 +582,6 @@ with (o6) {
 }
 
 console.log('******')
+
+let o = new Object();
+console.log(o);
