@@ -163,3 +163,77 @@ let preferredObject = null;
 let backupObject = 'abc';
 let myObject = preferredObject || backupObject;
 console.log(myObject); 
+
+console.log('---');
+
+let result9 = 34 * 56;
+
+let result10 = 66 / 11;
+
+// 取模（余数）操作符由一个百分比符号（%）表示
+let result11 = 26 % 5;
+console.log(result11); // 1
+
+console.log(Math.pow(3, 2)); // 9
+console.log(3 ** 2); // 9
+
+console.log(Math.pow(16, 0.5)); // 4
+console.log(16** 0.5); // 4
+
+let squared = 3;
+squared **= 2;
+console.log(squared); // 9
+
+let sqrt = 16;
+sqrt **= 0.5;
+console.log(sqrt); // 4
+
+console.log('===');
+
+let result12 = 1 + 2;
+console.log(result12); // 3
+
+let result13 = 5 + 5;
+console.log(result13);
+
+let result14 = 5 + '5';
+console.log(result14);
+
+let num14 = 5;
+let num24 = 10;
+let message = 'The sum of 5 and 10 is ' + num14 + num24;
+console.log(message);
+let message2 = 'The sum of 5 and 10 is ' + (num14 + num24);
+console.log(message2);
+
+let result15 = 2 - 1;
+let result16 = 5 - true;
+let result17 = NaN - 1;
+let result18 = 5 - 3;
+let result19 = 5 - '';
+let result20 = 5 - '2';
+let result21 = 5 - null;
+console.log(result16); // 4
+console.log(result17); // NaN
+console.log(result18); // 2
+console.log(result19); // 5
+console.log(result20); // 3
+console.log(result21); // 5
+
+console.log(5 > 3); // true
+console.log(5 < 3); // false
+console.log('Brick' < 'alphabet'); // true
+console.log('Brick'.toLowerCase() < 'alphabet'.toLowerCase()); // false
+console.log('23' < '3'); // true
+console.log('23' < 3); // false
+console.log('a' < 3); // false
+console.log(NaN < 3); // false
+console.log(NaN >= 3); // false
+
+console.log('=+=');
+
+let result22 = 4 > 3 ? 'a' : 'b';
+console.log(result22); // a
+
+let n1 = 1, n2 = 2, sn = 's';
+console.log(n1, n2, sn);
