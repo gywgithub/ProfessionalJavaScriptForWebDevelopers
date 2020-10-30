@@ -205,3 +205,75 @@ console.log(message3.startsWith('foo', 1)); // false
 console.log(message3.includes('bar', 4)); // false
 console.log(message3.includes('bar', 2)); // true
 console.log(message3.endsWith('baz', 1)); // false
+
+let stringValue6 = ' hello world ';
+let trimmedStringValue6 = stringValue6.trim();
+console.log(stringValue6);
+console.log(trimmedStringValue6);
+
+let trimLeftStringValue = stringValue6.trimLeft();
+console.log(trimLeftStringValue);
+let trimRightStringValue = stringValue6.trimRight();
+console.log(trimRightStringValue);
+
+let stringValue7 = 'na ';
+console.log(stringValue7.repeat(16) + 'batman'); // na na na na na na na na na na na na na na na na batman
+
+let stringValue8 = 'foo';
+console.log(stringValue8.padStart(6)); // '   foo'
+console.log(stringValue8.padStart(9, '.')); // '......foo'
+
+console.log(stringValue8.padEnd(6)); // 'foo   '
+console.log(stringValue8.padEnd(9, '.')); // 'foo......'
+
+console.log(stringValue8.padStart(8, 'bar')); // 'barbafoo'
+console.log(stringValue8.padStart(2)); // 'foo'
+
+console.log(stringValue8.padEnd(8, 'bar')); // 'foobarba'
+console.log(stringValue8.padEnd(2)); // 'foo'
+
+let message4 = 'abc';
+let stringIterator = message4[Symbol.iterator]();
+console.log(stringIterator.next()); // { value: 'a', done: false }
+console.log(stringIterator.next()); // { value: 'b', done: false }
+console.log(stringIterator.next()); // { value: 'c', done: false }
+console.log(stringIterator.next()); // { value: undefined, done: true }
+
+for (const c of 'abcde') {
+  console.log(c);
+  // a
+  // b
+  // c
+  // d
+  // e
+}
+
+let message5 = 'abcde';
+console.log([...message5]); // [ 'a', 'b', 'c', 'd', 'e' ]
+
+let stringValue9 = 'hello world';
+console.log(stringValue9.toLocaleUpperCase()); // HELLO WORLD
+console.log(stringValue9.toUpperCase()); // HELLO WORLD
+console.log(stringValue9.toLocaleLowerCase()); // hello world
+console.log(stringValue9.toLowerCase()); // hello world
+
+console.log('@@@');
+
+let text5 = 'cat, bat, sat, fat';
+let pattern51 = /.at/;
+
+// 等价于 pattern51.exec(text5)
+let matches5 = text5.match(pattern51);
+console.log(matches5);
+/** 
+ [ 'cat',
+  index: 0,
+  input: 'cat, bat, sat, fat',
+  groups: undefined ]
+ */
+console.log(matches5.index); // 0
+console.log(matches5[0]); // 'cat'
+console.log(pattern51.lastIndex); // 0
+
+let pos5 = text5.search(/at/);
+console.log(pos5); // 1
