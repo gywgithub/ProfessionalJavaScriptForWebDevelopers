@@ -277,3 +277,62 @@ console.log(pattern51.lastIndex); // 0
 
 let pos5 = text5.search(/at/);
 console.log(pos5); // 1
+
+console.log('###');
+
+let text6 = 'cat, bat, sat, fat';
+let result6 = text6.replace('at', 'ond');
+console.log(result6); // cond, bat, sat, fat
+
+result6 = text6.replace(/at/g, 'ond');
+console.log(result6); // cond, bond, sond, fond
+
+result6 = text6.replace(/(.at)/g, 'word ($1)');
+console.log(result6);
+
+function htmlEscape(text) {
+  return text.replace(/[<>"&]/g, function(match, pos, originalText) {
+    switch(match) {
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case "&":
+        return "&amp;";
+      case "\"":
+        return "&quot;";
+    }
+  })
+}
+
+console.log(htmlEscape("<p class=\"greeting\">Hello world!</p>"));
+
+console.log('===');
+
+let colorText = "red,blue,green,yellow";
+let colors1 = colorText.split(",");
+let colors2 = colorText.split(",", 2);
+let colors3 = colorText.split(/[^,]+/);
+console.log(colorText);
+console.log(colors1); // [ 'red', 'blue', 'green', 'yellow' ]
+console.log(colors2); // [ 'red', 'blue' ]
+console.log(colors3); // [ '', ',', ',', ',', '' ]
+
+let stringValue10 = 'yellow';
+console.log(stringValue10.localeCompare('brick')); // 1
+console.log(stringValue10.localeCompare('yellow')); // 0
+console.log(stringValue10.localeCompare('zoo')); // -1
+
+function determineOrder(value) {
+  let result = stringValue.localeCompare(value);
+  if (result < 0) {
+    console.log(`The string 'yellow' comes before the string '${value}'.`);
+  } else if (result > 0) {
+    console.log(`The string 'yellow' comes after the string '${value}'.`);
+  } else {
+    console.log(`The string 'yellow' is equal to the string '${value}'.`);
+  }
+}
+determineOrder('brick');
+determineOrder('yellow');
+determineOrder('zoo');
