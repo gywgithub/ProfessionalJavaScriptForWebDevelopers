@@ -336,3 +336,40 @@ function determineOrder(value) {
 determineOrder('brick');
 determineOrder('yellow');
 determineOrder('zoo');
+
+let uri = 'http://www.wrox.com/illegal value.js#start';
+console.log(uri); // http://www.wrox.com/illegal value.js#start
+console.log(encodeURI(uri)); // http://www.wrox.com/illegal%20value.js#start
+console.log(encodeURIComponent(uri)); // http%3A%2F%2Fwww.wrox.com%2Fillegal%20value.js%23start
+
+console.log('===');
+
+let uri2 = 'http%3A%2F%2Fwww.wrox.com%2Fillegal%20value.js%23start';
+console.log(decodeURI(uri2)); // http%3A%2F%2Fwww.wrox.com%2Fillegal value.js%23start
+console.log(decodeURIComponent(uri2)); // http://www.wrox.com/illegal value.js#start
+
+// *** 慎用 eval() ***
+console.log('hi');
+eval("console.log('hi')");
+
+eval("function sayHi() { console.log('hi'); }");
+sayHi();
+
+eval("let msg = 'hello world';");
+// console.log(msg); // ReferenceError: msg is not defined
+
+
+// *** 以下内容在 Chrome console 控制台中执行 ***
+// node 环境中运行会出现 ReferenceError: window is not defined
+// var color = 'red';
+// function sayColor() {
+//   console.log(window.color);
+// }
+// window.sayColor(); 
+// *** end ***
+
+// 获取 Global 对象
+let global = function() {
+  return this;
+}();
+console.log(global);
