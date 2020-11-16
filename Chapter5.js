@@ -373,3 +373,61 @@ let global = function() {
   return this;
 }();
 console.log(global);
+
+let max = Math.max(3, 54, 32, 16);
+console.log(max); // 54
+let min = Math.min(3, 54, 32, 16);
+console.log(min); // 3
+
+let values = [1, 2, 3, 4, 5, 6, 7, 8];
+let max2 = Math.max(...values);
+console.log(values); // [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+console.log(max2); // 8
+
+// Math.ceil() 向上舍入
+// Math.floor() 向下舍入
+// Math.round() 四舍五入
+// Math.fround() 最接近的单精度（32位）浮点值表示
+console.log(Math.ceil(25.9)); // 26
+console.log(Math.ceil(25.5)); // 26
+console.log(Math.ceil(25.1)); // 26
+
+console.log(Math.round(25.9)); // 26
+console.log(Math.round(25.5)); // 26
+console.log(Math.round(25.1)); // 25
+
+console.log(Math.fround(0.4)); // 0.4000000059604645
+console.log(Math.fround(0.5)); // 0.5
+console.log(Math.fround(25.9)); // 25.899999618530273
+
+console.log(Math.floor(25.9)); // 25
+console.log(Math.floor(25.5)); // 25
+console.log(Math.floor(25.1)); // 25
+
+
+// Math.random() 方法返回一个0～1范围内的随机数，其中包含0但不包含1.
+console.log(Math.random());
+
+// 从一组整数中随机选择一个数: number = Math.floor(Math.random() * total_number_of_choices + first_possible_value)
+// total_number_of_choices 可选总数
+// first_possible_value 最小可能值
+
+// 1-10 范围内的随机数
+let num4 = Math.floor(Math.random() * 10 + 1);
+console.log(num4);
+
+// 2-10 范围内的随机数
+let num5 = Math.floor(Math.random() * 9 + 2);
+console.log(num5);
+
+// 可选总数，最小我可能值函数
+function selectFrom(lowerValue, upperValue) {
+  let choices = upperValue - lowerValue + 1;
+  return Math.floor(Math.random() * choices + lowerValue);
+}
+let num6 = selectFrom(2, 10);
+console.log('selectFrom(2, 10): ', num6);
+
+let colors = ['red', 'green', 'blue', 'yellow', 'black', 'purple', 'brown'];
+let color = colors[selectFrom(0, colors.length - 1)];
+console.log('color: ', color);
