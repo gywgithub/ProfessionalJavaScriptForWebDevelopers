@@ -210,3 +210,119 @@ console.log(zeroes); // [0, 0, 0, 0, 0]
 
 zeroes.fill(4, 3, 10);
 console.log(zeroes); // [ 0, 0, 0, 4, 4 ]
+
+let ints,
+    reset = () => ints = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+reset();
+
+console.log(ints); // [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+
+ints.copyWithin(5);
+console.log(ints); // [ 0, 1, 2, 3, 4, 0, 1, 2, 3, 4 ]
+reset();
+
+ints.copyWithin(0, 5);
+console.log(ints); // [ 5, 6, 7, 8, 9, 5, 6, 7, 8, 9 ]
+reset();
+
+ints.copyWithin(2, 0, 6);
+console.log(ints); // [ 0, 1, 0, 1, 2, 3, 4, 5, 8, 9 ]
+reset();
+
+ints.copyWithin(-4, -7, -3);
+// 等价于 ints.copyWithin((-4 + 10), (-7 + 10), (-3 + 10));
+// ints.copyWithin(6, 3, 7);
+console.log(ints); // [0, 1, 2, 3, 4, 5, 3, 4, 5, 6]
+reset();
+
+// 索引过低，忽略
+ints.copyWithin(1, -15, -12);
+console.log(ints); // [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+reset();
+
+// 索引过高，忽略
+ints.copyWithin(1, 12, 15);
+console.log(ints); // [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+reset();
+
+// 索引反向，忽略
+ints.copyWithin(2, 4, 2);
+console.log(ints); // [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+reset();
+
+// 索引部分可用，复制，填充可用部分
+ints.copyWithin(4, 7, 10);
+console.log(ints); // [ 0, 1, 2, 3, 7, 8, 9, 7, 8, 9 ]
+
+let colors9 = ['red', 'blue', 'green'];
+console.log(colors9.toString()); // red,blue,green
+console.log(colors9.valueOf()); // [ 'red', 'blue', 'green' ]
+console.log(colors9); // [ 'red', 'blue', 'green' ]
+
+let person1 = {
+  toLocaleString() {
+    return 'Nikolaos';
+  },
+  toString() {
+    return 'Nicholas';
+  }
+};
+
+let person2 = {
+  toLocaleString() {
+    return 'Grigorios';
+  },
+  toString() {
+    return 'Greg';
+  }
+};
+
+let people = [person1, person2];
+console.log(people);
+// [ { toLocaleString: [Function: toLocaleString],
+// toString: [Function: toString] },
+// { toLocaleString: [Function: toLocaleString],
+// toString: [Function: toString] } ]
+
+console.log(people.toString()); // Nicholas,Greg
+console.log(people.toLocaleString()); // Nikolaos,Grigorios
+
+let colors10 = ['red', 'blue', 'green'];
+console.log(colors10.join(',')); // red,blue,green
+console.log(colors10.join('||')); // red||blue||green
+
+// 栈是一种后进先出（LIFO，Last-In-First-OUt）的结构。
+let colors11 = new Array();
+let count11 = colors11.push('red', 'green');
+console.log(count11); // 2
+count11 = colors11.push('black');
+console.log(count11); // 3
+
+let item = colors11.pop();
+console.log(item); // black
+console.log(colors11.length); // 2
+
+// 队列以先进先出（FIFO，First-In-First-Out）形式限制访问
+let colors12 = new Array();
+let count12 = colors12.push('red', 'green');
+console.log(colors12); // [ 'red', 'green' ]
+console.log(count12); // 2
+
+count12 = colors12.push('black');
+console.log(count12); // 3
+console.log(colors12); // [ 'red', 'green', 'black' ]
+
+let item12 = colors12.shift();
+console.log(item12); // red
+console.log(colors12.length); // 2
+
+let colors13 = new Array();
+let count13 = colors13.unshift('red', 'green');
+console.log(count13); // 2
+
+count13 = colors13.unshift('black');
+console.log(colors13); // [ 'black', 'red', 'green' ]
+
+let item13 = colors13.pop();
+console.log(item13); // green
+console.log(colors13.length); // 2
