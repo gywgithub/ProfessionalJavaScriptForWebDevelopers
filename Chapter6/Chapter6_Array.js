@@ -326,3 +326,128 @@ console.log(colors13); // [ 'black', 'red', 'green' ]
 let item13 = colors13.pop();
 console.log(item13); // green
 console.log(colors13.length); // 2
+
+let values2 = [1, 2, 3, 4, 5];
+console.log(values2); // [ 1, 2, 3, 4, 5 ]
+values2.reverse();
+console.log(values2); // [ 5, 4, 3, 2, 1 ]
+
+let values3 = [0, 1, 5, 10, 15];
+console.log(values3); // [ 0, 1, 5, 10, 15 ]
+values3.sort();
+console.log(values3); // [ 0, 1, 10, 15, 5 ]
+
+// function compare(value1, value2) {
+//   if (value1 < value2) {
+//     return -1;
+//   } else if (value1 > value2) {
+//     return 1;
+//   } else {
+//     return 0;
+//   }
+// }
+
+// 如果数组元素是数字，比较函数简洁写法
+function compare(value1, value2) {
+  return value1 - value2;
+}
+
+values3.sort(compare);
+console.log(values3); // [ 0, 1, 5, 10, 15 ]
+
+let values4 = [0, 1, 5, 10, 15];
+values4.sort((a, b) => a < b ? 1 : a > b ? -1 : 0);
+console.log(values4); // [ 15, 10, 5, 1, 0 ]
+
+let colors14 = ['red', 'green', 'blue'];
+let colors15 = colors14.concat('yellow', ['black', 'brown']);
+console.log(colors14); // [ 'red', 'green', 'blue' ]
+console.log(colors15); // [ 'red', 'green', 'blue', 'yellow', 'black', 'brown' ]
+
+console.log('---');
+
+let colors16 = ['red', 'green', 'blue'];
+let newColors6 = ['black', 'brown'];
+let moreNewColors = {
+  [Symbol.isConcatSpreadable]: true,
+  length: 2,
+  0: 'pink',
+  1: 'cyan'
+};
+newColors6[Symbol.isConcatSpreadable] = false;
+
+// 强制不打平数组
+let colors17 = colors16.concat('yellow', newColors6);
+
+// 强制打平类数组对象
+let colors18 = colors16.concat(moreNewColors);
+
+console.log(colors16); // [ 'red', 'green', 'blue' ]
+console.log(colors17); // [ 'red',
+// 'green',
+// 'blue',
+// 'yellow',
+// [ 'black', 'brown', [Symbol(Symbol.isConcatSpreadable)]: false ] ]
+console.log(colors18); // [ 'red', 'green', 'blue', 'pink', 'cyan' ]
+
+let colors19 = ['red', 'green', 'blue', 'yellow', 'purple'];
+let colors20 = colors19.slice(1);
+let colors21 = colors19.slice(1, 4);
+console.log(colors19); // [ 'red', 'green', 'blue', 'yellow', 'purple' ]
+console.log(colors20); // [ 'green', 'blue', 'yellow', 'purple' ]
+console.log(colors21); // [ 'green', 'blue', 'yellow' ]
+
+console.log('===');
+
+let colors22 = ['red', 'green', 'blue'];
+let removed = colors22.splice(0, 1);
+console.log(colors22); // ['green', 'blue']
+console.log(removed); // ['red']
+
+removed = colors22.splice(1, 0, 'yellow', 'orange');
+console.log(colors22); // [ 'green', 'yellow', 'orange', 'blue' ]
+console.log(removed); // []
+
+removed = colors22.splice(1, 1, 'red', 'purple');
+console.log(colors22); // [ 'green', 'red', 'purple', 'orange', 'blue' ]
+console.log(removed); // [ 'yellow' ]
+
+let numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+console.log(numbers.indexOf(4)); // 3
+console.log(numbers.lastIndexOf(4)); // 5
+console.log(numbers.includes(4)); // true
+
+console.log(numbers.indexOf(4, 4)); // 5
+console.log(numbers.lastIndexOf(4, 4)); // 3
+console.log(numbers.includes(4, 7)); // false
+
+let person3  = { name: 'Nicholas' };
+let people3 = [{ name: 'Nicholas' }];
+let morePeople = [person3];
+
+console.log(people3.indexOf(person3)); // -1
+console.log(morePeople.indexOf(person3)); // 0
+console.log(people3.includes(person3)); // false
+console.log(morePeople.includes(person3)); // true
+
+const people4 = [
+  {
+    name: 'Matt',
+    age: 27
+  },
+  {
+    name: 'Nicholas',
+    age: 29
+  }
+];
+
+console.log(people4.find((element, index, array) => element.age < 28)); // { name: 'Matt', age: 27 }
+console.log(people4.findIndex((element, index, array) => element.age < 28)); // 0
+
+const evens = [2, 4, 6];
+evens.find((element, index, array) => {
+  console.log(element);
+  console.log(index);
+  console.log(array);
+  return element === 4;
+})
