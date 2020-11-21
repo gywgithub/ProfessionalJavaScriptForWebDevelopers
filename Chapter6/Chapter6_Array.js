@@ -451,3 +451,82 @@ evens.find((element, index, array) => {
   console.log(array);
   return element === 4;
 })
+
+console.log('~~~');
+
+let numbers2 = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+let everyResult = numbers2.every((item, index, array) => item > 2);
+console.log(everyResult); // false
+
+let someResult = numbers2.some((item, index, array) => item > 2);
+console.log(someResult); // true
+
+let filterResult = numbers2.filter((item, index, array) => item > 2);
+console.log(filterResult); // [ 3, 4, 5, 4, 3 ]
+
+let mapResult = numbers2.map((item, index, array) => item * 2);
+console.log(mapResult); // [ 2, 4, 6, 8, 10, 8, 6, 4, 2 ]
+
+numbers2.forEach((item, index, array) => {
+  console.log(item)
+});
+
+let values5 = [1, 2, 3, 4, 5];
+let sum5 = values5.reduce((prev, cur, index, array) => prev + cur);
+console.log(sum5);
+
+let sum6 = values5.reduceRight(function(prev, cur, index, array) {
+  return prev + cur;
+});
+console.log(sum6);
+
+const buf = new ArrayBuffer(16);
+console.log(buf.byteLength); // 16
+
+const buf1 = new ArrayBuffer(16);
+const buf2 = buf1.slice(4, 12);
+console.log(buf2.byteLength); // 8
+
+const buf3 = new ArrayBuffer(16);
+const fullDataView = new DataView(buf3);
+console.log(fullDataView.byteOffset); // 0
+console.log(fullDataView.byteLength); // 16
+console.log(fullDataView.buffer === buf3); // true
+
+const firstHalfDataView = new DataView(buf3, 0, 8);
+console.log(firstHalfDataView.byteOffset); // 0
+console.log(firstHalfDataView.byteLength); // 8
+console.log(firstHalfDataView.buffer === buf3); // true
+
+const secondHalfDataView = new DataView(buf3, 8);
+console.log(secondHalfDataView.byteOffset); // 8
+console.log(secondHalfDataView.byteLength); // 8
+console.log(secondHalfDataView.buffer === buf3); // true
+
+const buf4 = new ArrayBuffer(2);
+const view = new DataView(buf4);
+
+console.log(view.getInt8(0)); // 0
+console.log(view.getInt8(1)); // 0
+console.log(view.getInt16(0)); // 0
+
+view.setUint8(0, 255);
+view.setUint8(1, 0xFF);
+
+console.log(view.getInt16(0)); // -1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
