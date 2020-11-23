@@ -515,18 +515,147 @@ view.setUint8(1, 0xFF);
 
 console.log(view.getInt16(0)); // -1
 
+console.log('###');
 
+const buf5 = new ArrayBuffer(2);
+const view5 = new DataView(buf5);
+view5.setUint8(0, 0x80);
+view5.setUint8(1, 0x01);
 
+console.log(view5.getUint16(0)); // 32769
 
+console.log(view5.getUint16(0, true)); // 384
 
+view5.setUint16(0, 0x0004);
 
+console.log(view5.getUint8(0)); // 0
+console.log(view5.getUint8(1)); // 4
 
+view5.setUint16(0, 0x0002, true);
+console.log(view5.getUint8(0)); // 2
+console.log(view5.getUint8(1)); // 0
 
+const buf6 = new ArrayBuffer(6);
+const view6 = new DataView(buf6);
+// view6.getInt32(4); // RangeError: Offset is outside the bounds of the DataView
 
+// view6.getInt32(8); // RangeError: Offset is outside the bounds of the DataView
 
+// view6.getInt32(-1); // RangeError: Offset is outside the bounds of the DataView
 
+// view6.setInt32(4, 123); // RangeError: Offset is outside the bounds of the DataView
 
+const buf7 = new ArrayBuffer(1);
+const view7 = new DataView(buf7);
+view7.setInt8(0, 1.5);
+console.log(view7.getInt8(0));
+view7.setInt8(0, 'f');
+console.log(view7.getInt8(0));
+// view7.setInt8(0, Symbol()); // TypeError: Cannot convert a Symbol value to a number
 
+const buf8 = new ArrayBuffer(12);
+const ints8 = new Int32Array(buf8);
+console.log(ints8.length); // 3
 
+const ints9 = new Int32Array(6);
+console.log(ints9.length); // 6
+console.log(ints9.buffer.byteLength); // 24
 
+const ints10 = new Int32Array([2, 4, 6, 8]);
+console.log(ints10.length); // 4
+console.log(ints10.buffer.byteLength); // 16
+console.log(ints10[2]); // 6
 
+const ints11 = new Int16Array(ints10);
+console.log(ints11.length); // 4
+console.log(ints11.buffer.byteLength); // 8
+console.log(ints11[2]); // 6
+
+const ints12 = Int16Array.from([3, 5, 7, 9]);
+console.log(ints12.length); // 4
+console.log(ints12.buffer.byteLength); // 8
+console.log(ints12[2]); // 7
+
+const floats = Float32Array.of(3.14, 2.718, 1.618);
+console.log(floats.length); // 3
+console.log(floats.buffer.byteLength); // 12
+console.log(floats[2]); // 1.6180000305175781
+
+console.log(Int16Array.BYTES_PER_ELEMENT); // 2
+console.log(Int32Array.BYTES_PER_ELEMENT); // 4
+
+const ints13 = new Int32Array(1),
+      floats13 = new Float64Array(1);
+
+console.log(ints13.BYTES_PER_ELEMENT); // 4
+console.log(floats13.BYTES_PER_ELEMENT); // 8
+
+const ints14 = new Int32Array(4);
+console.log(ints14[0]); // 0
+console.log(ints14[1]); // 0
+console.log(ints14[2]); // 0
+console.log(ints14[3]); // 0
+
+const ints15 = new Int16Array([1, 2, 3]);
+const doubleints = ints15.map(x => 2*x);
+console.log(doubleints instanceof Int16Array); // true
+
+const ints16 = new Int16Array([1, 2, 3]);
+for (const int of ints16) {
+  console.log(int);
+}
+console.log(Math.max(...ints16)); // 3
+
+const container = new Int16Array(8);
+container.set(Int8Array.of(1, 2, 3, 4));
+console.log(container); // Int16Array [ 1, 2, 3, 4, 0, 0, 0, 0 ]
+
+container.set([5, 6, 7, 8], 4);
+console.log(container); // Int16Array [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+
+// container.set([5, 6, 7, 8], 7); // RangeError: Source is too large
+
+const source = Int16Array.of(2, 4, 6, 8);
+const fullCopy = source.subarray();
+console.log(fullCopy); // Int16Array [ 2, 4, 6, 8 ]
+
+const halfCopy = source.subarray(2);
+console.log(halfCopy); // Int16Array [ 6, 8 ]
+
+const partialCopy = source.subarray(1, 3);
+console.log(partialCopy); // Int16Array [ 4, 6 ]
+
+// 定型函数拼接函数
+function typedArrayConcat(typedArrayConstructor, ...typedArrays) {
+  const numElements = typedArrays.reduce((x, y) => (x.length || x) + y.length);
+  const resultArray = new typedArrayConstructor(numElements);
+  let currentOffset = 0;
+  typedArrays.map(x => {
+    resultArray.set(x, currentOffset);
+    currentOffset += x.length;
+  });
+  return resultArray;
+}
+
+const concatArray = typedArrayConcat(Int32Array, Int8Array.of(1, 2, 3), Int16Array.of(4, 5, 6), Float32Array.of(7, 8, 9));
+console.log(concatArray); // Int32Array [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+console.log(concatArray instanceof Int32Array); // true
+
+const ints17 = new Int8Array(2);
+const unsignedInts = new Uint8Array(2);
+unsignedInts[1] = 256;
+console.log(unsignedInts); // Uint8Array [ 0, 0 ]
+unsignedInts[1] = 511;
+console.log(unsignedInts); // Uint8Array [ 0, 255 ]
+
+unsignedInts[1] = -1;
+console.log(unsignedInts); // Uint8Array [ 0, 255 ]
+
+ints17[1] = 128;
+console.log(ints17); // Int8Array [ 0, -128 ]
+
+ints17[1] = 255;
+console.log(ints17); // Int8Array [ 0, -1 ]
+
+const clampedInts = new Uint8ClampedArray([-1, 0, 255, 256]);
+console.log(clampedInts); // Uint8ClampedArray [ 0, 0, 255, 255 ]
