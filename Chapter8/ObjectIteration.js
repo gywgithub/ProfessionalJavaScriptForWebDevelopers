@@ -81,4 +81,21 @@ console.log(friend instanceof Person5); // true
 console.log(friend.constructor == Person5); // false
 console.log(friend.constructor == Object); // true
 
-// 原型的动态性 8.2.5
+let friend6 = new Person5();
+Person5.prototype.sayHi = function() {
+  console.log('hi');
+}
+friend6.sayHi();
+
+function Person7() {}
+let friend7 = new Person7();
+Person7.prototype = {
+  // constructor: Person7,
+  name: 'Nicholas',
+  age: 29,
+  job: 'Software Engineer',
+  sayName() {
+    console.log(this.name);
+  }
+}
+// friend7.sayName();
