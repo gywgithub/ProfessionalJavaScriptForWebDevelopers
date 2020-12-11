@@ -228,3 +228,86 @@ class Engineer extends Person12 {}
 let e = new Engineer();
 console.log(e instanceof Engineer);
 console.log(e instanceof Person12);
+
+console.log('---');
+
+// 继承内置类型
+class SuperArray extends Array {
+  shuffle() {
+    // 洗牌算法
+    for (let i = this.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this[i], this[j]] = [this[j], this[i]];
+    }
+  }
+}
+let a = new SuperArray(1, 2, 3, 4, 5);
+console.log(a instanceof Array);
+console.log(a instanceof SuperArray);
+
+console.log(a);
+a.shuffle();
+console.log(a);
+
+let a1 = new SuperArray(1, 2, 3, 4, 5);
+let a2 = a1.filter(x => !!(x%2));
+console.log(a1);
+console.log(a2);
+
+console.log('---');
+
+class SuperArray2 extends Array {
+  static get [Symbol.species]() {
+    return Array;
+  }
+}
+let a21 = new SuperArray2(1, 2, 3, 4, 5);
+let a22 = a21.filter(x => !!(x%2));
+console.log(a21);
+console.log(a22);
+console.log(a21 instanceof SuperArray2); // true
+console.log(a22 instanceof SuperArray2); // false
+
+console.log('===');
+
+class Vehicle3 {}
+function getParentClass3() {
+  console.log('evaluated expression');
+  return Vehicle3;
+}
+class Bus3 extends getParentClass3() {}
+
+console.log('---');
+
+class Vehicle4 {}
+
+let FooMixin = (Superclass) => class extends Superclass {
+  foo() {
+    console.log('foo');
+  }
+};
+let BarMixin = (Superclass) => class extends Superclass {
+  bar() {
+    console.log('bar');
+  }
+};
+let BazMixin = (Superclass) => class extends Superclass {
+  baz() {
+    console.log('baz');
+  }
+};
+class Bus4 extends FooMixin(BarMixin(BazMixin(Vehicle4))) {}
+let b4 = new Bus4();
+b4.foo();
+b4.bar();
+b4.baz();
+
+function mix(BaseClass, ...Mixins) {
+  return Mixins.reduce((accumulator, current) => current(accumulator), BaseClass);
+}
+
+class Bus42 extends mix(Vehicle, FooMixin, BarMixin, BazMixin) {}
+let b42 = new Bus42();
+b42.foo();
+b42.bar();
+b42.baz();
