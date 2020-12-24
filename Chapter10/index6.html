@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>this 对象</title>
+  </head>
+  <body>
+    <div id="div1" style="width:100px; height:100px; border:1px solid #ccc;"></div>
+    <script>
+      console.log('1');
+      window.identity = 'The window';
+
+      let object = {
+        identity: 'My Object',
+        // getIdentityFunc() {
+        //   return function() {
+        //     return this.identity;
+        //   };
+        // }
+        getIdentityFunc() {
+          let that = this;
+          return function() {
+            return that.identity;
+          }
+        }
+      };
+
+      console.log(object.getIdentityFunc()());
+
+      function assignHandler() {
+        let element = document.getElementById('div1');
+        let id = element.id;
+        element.onclick = () => console.log(id);
+        element = null;
+      }
+
+      assignHandler();
+    </script>
+  </body>
+</html>
