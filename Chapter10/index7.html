@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>立即调用的函数表达式</title>
+    <style>
+      div {
+        width: 100%;
+        height: 100px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <script>
+      (function() {
+        console.log(1);
+      })();
+
+      let divs = document.querySelectorAll('div');
+
+      // for (var i = 0; i < divs.length; ++i) {
+      //   divs[i].addEventListener('click', (function(frozenCounter) {
+      //     return function() {
+      //       console.log(frozenCounter);
+      //     };
+      //   })(i));
+      // }
+
+      for (let i = 0; i < divs.length; ++i) {
+        divs[i].addEventListener('click', function() {
+          console.log(i);
+        });
+      }
+
+      function MyObject() {
+        let privateVariable = 10;
+        
+        function privateFunction() {
+          return false;
+        }
+
+        this.publicMethod = function() {
+          privateVariable++;
+          return privateFunction();
+        }
+      }
+
+      function Person(name) {
+        this.getName = function() {
+          return name;
+        };
+
+        this.setName = function (value) {
+          name = value;
+        };
+      }
+
+      let person = new Person('Nicholas');
+      console.log(person.getName());
+      person.setName('Greg');
+      console.log(person.getName());
+
+      (function() {
+        let name = '';
+
+        Person = function(value) {
+          name = value;
+        };
+
+        Person.prototype.getName = function() {
+          return name;
+        };
+
+        Person.prototype.setName = function(value) {
+          name = value;
+        };
+      })();
+
+      let person1 = new Person('Nicholas');
+      console.log(person1.getName());
+      person1.setName('Matt');
+      console.log(person1.getName());
+
+      let person2 = new Person('Michoael');
+      console.log(person1.getName());
+      console.log(person2.getName());
+    </script>
+  </body>
+</html>
