@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>模块模式</title>
+  </head>
+  <body>
+    <script>
+      let singleton = function() {
+        let privateVariable = 10;
+
+        function privateFunction() {
+          return false;
+        }
+
+        return {
+          publicProperty: true,
+
+          publicMethod() {
+            privateVariable++;
+            return privateFunction();
+          }
+        };
+      }();
+
+
+      let application = function() {
+        let components = new Array();
+
+        components.push(new BaseComponent());
+
+        return {
+          getComponentCount() {
+            return components.length;
+          },
+          registerComponent(component) {
+            if (typeof component == 'object') {
+              components.push(component);
+            }
+          }
+        }
+      }();
+
+
+      let singleton2 = function() {
+        let privateVariable = 10;
+
+        function privateFunction() {
+          return false;
+        }
+
+        let object = new CustomType();
+
+        object.publicProperty = true;
+
+        object.publicMethod = function() {
+          privateVariable++;
+          return privateFunction();
+        };
+
+        return object;
+      }
+
+      let application2 = function() {
+        let components = new Array();
+
+        components.push(new BaseComponent());
+
+        let app = new BaseComponent();
+
+        app.getComponentCount = function() {
+          return components.length;
+        };
+
+        app.registerComponent = function(component) {
+          if (typeof component == 'object') {
+            components.push(component);
+          }
+        };
+
+        return app;
+      };
+    </script>
+  </body>
+</html>
