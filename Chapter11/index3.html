@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>期约连锁与期约合成</title>
+  </head>
+  <body>
+    <script>
+      // let p = new Promise((resolve, reject) => {
+      //   console.log('first');
+      //   resolve();
+      // });
+      // p.then(() => console.log('second'))
+      //  .then(() => console.log('third'))
+      //  .then(() => console.log('fourth'));
+
+      // console.log('---');
+
+      // let p1 = new Promise((resolve, reject) => {
+      //   console.log('p1 executor');
+      //   setTimeout(resolve, 1000);
+      // });
+      // p1.then(() => new Promise((resolve, reject) => {
+      //     console.log('p2 executor');
+      //     setTimeout(resolve, 1000);
+      //   }))
+      //   .then(() => new Promise((resolve, reject) => {
+      //     console.log('p3 executor');
+      //     setTimeout(resolve, 1000);
+      //   }))
+      //   .then(() => new Promise((resolve, reject) => {
+      //     console.log('p4 executor');
+      //     setTimeout(resolve, 1000);
+      //   }));
+      
+      // console.log('===');
+
+      // function delayedResolve(str) {
+      //   return new Promise((resolve, reject) => {
+      //     console.log(str);
+      //     setTimeout(resolve, 1000);
+      //   });
+      // }
+
+      // delayedResolve('p1 executor')
+      //   .then(() => delayedResolve('p2 executor'))
+      //   .then(() => delayedResolve('p3 executor'))
+      //   .then(() => delayedResolve('p4 executor'));
+
+      // console.log('***');
+
+      // let p2 = new Promise((resolve, reject) => {
+      //   console.log('initial promise rejects');
+      //   reject();
+      // });
+      // p2.catch(() => console.log('reject handler'))
+      //   .then(() => console.log('resolve handler'))
+      //   .finally(() => console.log('finally handler'));
+
+      // console.log('-------');
+
+      // let p3 = Promise.all([Promise.resolve(), Promise.resolve()]);
+      // let p4 = Promise.all([3, 4]);
+      // let p5 = Promise.all([]);
+
+      // let p6 = Promise.all([
+      //   Promise.resolve(),
+      //   new Promise((resolve, reject) => setTimeout(resolve, 1000))
+      // ]);
+      // setTimeout(console.log, 0, p6);
+      // p6.then(() => setTimeout(console.log, 0, 'all() resolved!'));
+
+      // let p7 = Promise.all([new Promise(() => {})]);
+      // setTimeout(console.log, 0, p7);
+      // let p8 = Promise.all([
+      //   Promise.resolve(),
+      //   Promise.reject(),
+      //   Promise.resolve()
+      // ]);
+      // setTimeout(console.log, 0, p8);
+
+      // let p9 = Promise.all([
+      //   Promise.resolve(3),
+      //   Promise.resolve(), Promise.resolve(4)
+      // ]);
+      // p9.then((values) => setTimeout(console.log, 0, values));
+
+      console.log('---- Promise.race() -----');
+
+      let p10 = Promise.race([
+        Promise.resolve(3),
+        new Promise((resolve, reject) => setTimeout(reject, 1000))
+      ]);
+      setTimeout(console.log, 0, p10);
+
+      let p11 = Promise.race([
+        Promise.reject(4),
+        new Promise((resolve, reject) => setTimeout(resolve, 1000))
+      ]);
+      setTimeout(console.log, 0, p11);
+
+      let p12 = Promise.race([
+        Promise.resolve(5),
+        Promise.resolve(6),
+        Promise.resolve(7)
+      ]);
+      setTimeout(console.log, 0, p12);
+
+      console.log('---');
+
+      function addTwo(x) {return x + 2;}
+      function addThree(x) {return x + 3;}
+      function addFive(x) {return x + 5;}
+      function addTen(x) {
+        // return Promise.resolve(x)
+        //   .then(addTwo)
+        //   .then(addThree)
+        //   .then(addFive);
+
+        return [addTwo, addThree, addFive].reduce((promise, fn) => promise.then(fn), Promise.resolve(x));
+      }
+      addTen(8).then(console.log);
+    </script>
+  </body>
+</html>

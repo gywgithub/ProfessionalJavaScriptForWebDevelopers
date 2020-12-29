@@ -8,10 +8,79 @@
       let p1 = new Promise((resolve, reject) => resolve());
       setTimeout(console.log, 0, p1);
 
-      let p2 = new Promise((resolve, reject) => reject());
-      setTimeout(console.log, 0, p2);
+      // let p2 = new Promise((resolve, reject) => reject());
+      // setTimeout(console.log, 0, p2);
 
       //  期约的实例方法
+      function onResolved(id) {
+        setTimeout(console.log, 0, id, 'resolved');
+      }
+
+      function onRejected(id) {
+        setTimeout(console.log, 0, id, 'rejected');
+      }
+
+      let p3 = new Promise((resolve, reject) => setTimeout(resolve, 3000));
+      let p4 = new Promise((resolve, reject) => setTimeout(reject, 3000));
+      p3.then(() => onResolved('p3'),
+              () => onRejected('p3'));
+      p4.then(() => onResolved('p4'),
+              () => onRejected('p4'));
+
+      let p5 = Promise.resolve('foo');
+      let p6 = p5.then();
+      setTimeout(console.log, 0, p6);
+
+      console.log('---');
+      let p7 = Promise.reject('foo');
+      let p8 = p7.then();
+      setTimeout(console.log, 0, p8);
+
+      console.log('===');
+
+      let p9 = Promise.reject();
+      let onRejected9 = function(e) {
+        setTimeout(console.log, 0, 'rejected');
+      };
+      p9.then(null, onRejected9);
+      p9.catch(onRejected9);
+
+      let p10 = new Promise(() => {});
+      let p11 = p10.catch();
+      setTimeout(console.log, 0, p10);
+      setTimeout(console.log, 0, p11);
+      setTimeout(console.log, 0, p10 === p11);
+
+      console.log('---')
+      
+      let p12 = Promise.resolve();
+      let p13 = Promise.reject();
+      let onFinally = function() {
+        setTimeout(console.log, 0, 'Finally!');
+      };
+      p12.finally(onFinally);
+      p13.finally(onFinally);
+
+      console.log('===');
+
+      let p14 = new Promise(() => {});
+      let p15 = p14.finally();
+      setTimeout(console.log, 0, p14);
+      setTimeout(console.log, 0, p15);
+      setTimeout(console.log, 0, p14 === p15);
+
+      console.log('---***');
+      let synchronousResolve;
+      let p16 = new Promise((resolve) => {
+        synchronousResolve = function() {
+          console.log('1: invoking resolve()');
+          resolve();
+          console.log('2: resolve() returns');
+        }
+      });
+      p16.then(() => console.log('4: then() handler executes'));
+      synchronousResolve();
+      console.log('3: synchronousResolve() returns');
     </script>
   </body>
 </html>
