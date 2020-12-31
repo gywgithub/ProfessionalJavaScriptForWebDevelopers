@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>异步函数</title>
+  </head>
+  <body>
+    <script>
+      let p = new Promise((resolve, reject) => setTimeout(resolve, 1000, 3));
+
+      // p.then((x) => console.log(x));
+
+      function handler(x) {
+        console.log(x);
+      }
+
+      p.then(handler);
+
+      console.log('---');
+
+      async function foo() {
+        console.log(1);
+        return 3;
+      }
+
+      foo().then(console.log);
+
+      console.log(2);
+
+      console.log('===');
+
+      async function baz() {
+        const thenable = {
+          then(callback) {
+            callback('baz');
+          }
+        };
+        return thenable;
+      }
+
+      baz().then(console.log);
+
+      async function qux() {
+        return Promise.resolve('qux');
+      }
+
+      qux().then(console.log);
+
+      console.log('---');
+
+      async function foo2() {
+        console.log(await Promise.resolve('foo'));
+      }
+      foo2();
+
+      async function bar2() {
+        return await Promise.resolve('bar');
+      }
+      bar2().then(console.log);
+
+      async function baz2() {
+        await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+        console.log('baz');
+      }
+      baz2();
+
+      async function foo3() {
+        console.log(1);
+        await (() => { throw 3; })();
+      }
+      foo3().catch(console.log);
+      console.log(2);
+
+      console.log('------ sleep() --------')
+      async function sleep(delay) {
+        return new Promise((resolve) => setTimeout(resolve, delay));
+      }
+
+      async function foo4() {
+        const t0 = Date.now();
+        await sleep(1500);
+        console.log(Date.now() - t0);
+      }
+      foo4();
+
+      console.log('------- 性能 ------');
+      function fooPromiseExecutor(resolve, reject) {
+        setTimeout(reject, 1000, 'bar');
+      }
+      async function foo5() {
+        await new Promise(fooPromiseExecutor);
+      }
+      foo5();
+    </script>
+  </body>
+</html>
