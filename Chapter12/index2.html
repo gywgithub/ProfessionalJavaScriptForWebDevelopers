@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BOM-location</title>
+  </head>
+  <body>
+    <script>
+      let getQueryStringArgs = function() {
+        let qs = (location.search.length > 0 ? location.search.substring(1) : ''),
+          args = {};
+        
+        for(let item of qs.split('&').map(kv => kv.split('='))) {
+          let name = decodeURIComponent(item[0]),
+            value = decodeURIComponent(item[1]);
+          if(name.length) {
+            args[name] = value;
+          }
+        }
+        return args;
+      }
+      console.log(getQueryStringArgs());
+
+      console.log('---');
+
+      // let qs = location.search.length > 0 ? location.search : '';
+      let qs = '?q=javascript&num=10';
+      let searchParams = new URLSearchParams(qs);
+      console.log(searchParams.toString());
+      console.log(searchParams.has('num'));
+      console.log(searchParams.get('num'));
+
+      searchParams.set('page', '3');
+      console.log(searchParams.toString());
+
+      searchParams.delete('q');
+      console.log(searchParams.toString());
+
+      for(let param of searchParams) {
+        console.log(param);
+      }
+      // ['num', '10']
+      // ['page', '3']
+
+      location.assign('https://www.baidu.com');
+
+      // location.reload();
+      // location.reload(true); // 从服务器加载
+    </script>
+  </body>
+</html>
