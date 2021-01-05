@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <script>
+      // screen
+      console.log(window.screen.availHeight);
+      console.log(window.screen.availTop);
+      console.log(window.screen.height); // 1080
+
+      // --- history ---
+      // history.go(-1);
+      // history.go(1);
+      // history.go(2);
+      // history.go('baidu.com');
+
+      // history.back();
+
+      // history.forward();
+
+      // if (history.length == 1) {
+      //   console.log('first window')
+      // }
+
+      let stateObject = { foo: 'bar' };
+      setTimeout(() => {
+        // history.pushState(stateObject, 'My title', '/Chapter12/index3.html');
+      }, 2000);
+      history.pushState(stateObject, 'My title', '/Chapter12/index3.html');
+
+      window.addEventListener('popstate', (event) => {
+        console.log('popstate');
+        let state = event.state;
+        if (state) {
+          // processState(state);
+          console.log('state is true');
+        }
+      });
+    </script>
+  </body>
+</html>

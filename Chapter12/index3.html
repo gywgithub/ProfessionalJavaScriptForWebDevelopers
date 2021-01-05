@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>navigator</title>
+  </head>
+  <body>
+    <script>
+      let hasPlugin = function(name) {
+        name = name.toLowerCase();
+        for (let plugin of window.navigator.plugins) {
+          if (plugin.name.toLowerCase().indexOf(name) > -1) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      console.log(hasPlugin('Flash'));
+
+      console.log(hasPlugin('QuickTime'));
+
+      // 把Web应用程序注册为默认邮件客户端
+      // navigator.registerProtocolHandler('mailto', 'http://www.somemailclient.com?cmd=%s', 'Some Mail Client');
+    </script>
+  </body>
+</html>
