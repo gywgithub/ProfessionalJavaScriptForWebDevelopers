@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body>
+  <input type="button" value="get postion" id="btn1">
+  <script>
+    function isSortable(object) {
+      return typeof object.sort == 'function';
+    }
+
+    let obj = {
+      name: 'Ben'
+    };
+    let arr = [1, 3, 4];
+
+    console.log(isSortable(obj)); // false
+    console.log(isSortable(arr)); // true
+
+    // 检测浏览器是否支持Netscape式的插件
+    let hasNSPlugins = !!(navigator.plugins && navigator.plugins.length);
+    console.log(hasNSPlugins);
+
+    // 检测浏览器是否具有DOM Level 1能力
+    let hasDOM1 = !!(document.getElementById && document.createElement && document.getElementsByTagName);
+    console.log(hasDOM1);
+
+    class BrowserDetector {
+      constructor() {
+
+        // 测试 StyleMedia 构造函数
+        // Edge 20及以上版本支持
+        this.isEdge_Gte20 = !!window.StyleMedia;
+
+        // 测试 chrome 对象及其webstore属性
+        // 所有版本的Chrome都支持
+        this.isChrome_Gte1 = !!window.chrome && !!window.chrome.webstore;
+      }
+
+      isEdge() {
+        return this.isEdge_Gte20;
+      }
+      isChrome() {
+        return this.isChrome_Gte1;
+      }
+    }
+
+    console.log(window.navigator.userAgent);
+
+    console.log(window.navigator);
+
+    // 用户代理字符串操作系统/系统架构
+    console.log(window.navigator.oscpu); // undefined
+    console.log(navigator.oscpu); // undefined
+
+    // 浏览器开发商
+    console.log(navigator.vendor); // Chrome 'Google Inc.'
+
+    // --- screen ---
+    // Chrome
+    console.log(screen.colorDepth); // 24
+    console.log(screen.pixelDepth); // 24
+
+    // Chrome移动版
+    console.log(screen.orientation.type);
+    console.log(screen.orientation.angle);
+
+
+    document.getElementById('btn1').addEventListener('click', function () {
+      console.log('click');
+      if (navigator.geolocation) {
+        console.log('true')
+        navigator.geolocation.getCurrentPosition(showPosition, (e) => {
+          console.log(e);
+        });
+      } else {
+        console.log('该浏览器不支持获取地理位置。')
+      }
+
+      function showPosition(position) {
+        console.log('position ', position);
+      }
+    });
+
+    console.log('--- --- ')
+    console.log(navigator.onLine);
+    // 检测浏览器是否联网
+    const connectionStateChange = () => console.log(navigator.onLine);
+    window.addEventListener('online', connectionStateChange);
+    window.addEventListener('offline', connectionStateChange);
+
+    console.log('===');
+    navigator.getBattery().then((b) => console.log(b));
+  </script>
+</body>
+
+</html>
