@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <div id="div1">
+      <div id="div2">
+        <p>div2</p>
+      </div>
+      <div id="div3"></div>
+    </div>
+    <div id="div4"></div>
+    <div id="div5"></div>
+    <script>
+      const div1 = document.getElementById('div1');
+      if (div1.nodeType == 1) {
+        const value = div1.nodeName;
+        console.log(value);
+
+        const nodeValue = div1.nodeValue;
+        console.log(nodeValue);
+      }
+
+      const htmlEle = document.getElementsByTagName('html')[0];
+      console.log(htmlEle);
+
+      const firstChild = htmlEle.childNodes[0];
+      console.log(firstChild);
+      const secondChild = htmlEle.childNodes.item(1);
+      console.log(secondChild);
+      const count = htmlEle.childNodes.length;
+      console.log(count);
+
+      let arrayOfNodes = Array.from(htmlEle.childNodes);
+      console.log(arrayOfNodes);
+
+      if (htmlEle.nextSibling === null) {
+        console.log("Last node in the parent's childNodes list.");
+      } else if (htmlEle.previousSibling === null) {
+        console.log("First node in the parent's childNodes list.");
+      }
+
+      const newNode = document.createElement("div");
+      // let returnedNode = div1.appendChild(newNode);
+      // console.log(returnedNode == newNode);
+      // console.log(div1.lastChild == newNode);
+
+      // console.log(returnedNode == div1.firstChild);
+      // console.log(returnedNode == div1.lastChild);
+
+      let restrunedNode = div1.replaceChild(newNode, div1.firstChild);
+      returnedNode = div1.replaceChild(newNode, div1.lastChild);
+
+      // let formerFirstChild = div1.removeChild(div1.firstChild);
+
+      let formerLastChild = div1.removeChild(div1.lastChild);
+
+      let deepList = div1.cloneNode(true);
+      console.log(deepList);
+
+      let shallowList = div1.cloneNode(false);
+      console.log(shallowList);
+    </script>
+  </body>
+</html>
