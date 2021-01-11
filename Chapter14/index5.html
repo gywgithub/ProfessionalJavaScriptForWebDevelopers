@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <style type="text/css">
+      .divSize {
+        width: 100px;
+        height: 100px;
+        border: 2px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <p>The current date and time is:</p>
+    <div id="myDiv" class="bd" title="Body text" lang="en" dir="ltr"></div>
+    <ul id="myList">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+    <script>
+      let hasXmlDom = document.implementation.hasFeature('XML', '1.0');
+      console.log(hasXmlDom);
+
+      document.write('<strong>' + (new Date()).toString() + '</strong>');
+
+      // document.write("<script type=\"text/javascript\" src=\"file.js\">" + "<\/script>");
+
+      let div = document.getElementById('myDiv');
+      console.log(div.tagName); // DIV
+      console.log(div.tagName == div.nodeName); // true
+      console.log(div.id);
+      console.log(div.className);
+      console.log(div.title);
+      console.log(div.lang);
+
+      if (div.tagName.toLowerCase() == 'div') {
+        console.log('myDiv');
+      }
+
+      div.id = "myDiv2";
+
+      console.log(div.getAttribute('id'));
+      console.log(div.getAttribute('class'));
+      console.log(div.getAttribute('title'));
+      console.log(div.getAttribute('dir'));
+
+      div.removeAttribute('class');
+
+      let id = div.attributes.getNamedItem('id').nodeValue;
+      console.log(id);
+      console.log(div.attributes['id'].nodeValue);
+
+      div.attributes['id'].nodeValue = 'myDiv';
+      console.log(div.attributes['id'].nodeValue);
+
+      div.removeAttribute('dir');
+      div.setAttribute('class', 'divSize');
+
+      let divAttributes = outputAttributes(div);
+      console.log(divAttributes);
+
+      function outputAttributes(element) {
+        let pairs = [];
+
+        for (let i = 0, len = element.attributes.length; i < len; ++i) {
+          const attribute = element.attributes[i];
+          pairs.push(`${attribute.nodeName}="${attribute.nodeValue}"`);
+        }
+        return pairs.join(' ');
+      }
+
+      let div2 = document.createElement('div');
+      div2.id = 'div2';
+      div2.className = 'divSize';
+
+      document.body.appendChild(div2);
+
+      let ul = document.getElementById('myList');
+      console.log(ul);
+
+      let items = ul.getElementsByTagName('li');
+      console.log(items);
+    </script>
+  </body>
+</html>
