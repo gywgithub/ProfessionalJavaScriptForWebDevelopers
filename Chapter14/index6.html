@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <div id="div1">Hello World!</div>
+    <div id="myDiv"><!-- A comment --></div>
+    <ul id="myList"></ul>
+    <div style="border:1px solid red;width:100px;height:100px;" id="div4">abc</div>
+    <script>
+      let div1 = document.getElementById('div1');
+      let textNode = div1.firstChild;
+      console.log('textNode ', textNode);
+
+      setTimeout(() => {
+        div1.firstChild.nodeValue = 'Some other message';
+      }, 2000);
+
+      let textNode2 = document.createTextNode('Hello2 World!');
+      let div2 = document.createElement('div');
+
+      let textNode3 = document.createTextNode('Yippee!');
+
+      div2.appendChild(textNode2);
+      div2.appendChild(textNode3);
+      document.body.appendChild(div2);
+      console.log(div2.childNodes.length);
+
+      div2.normalize();
+
+      console.log(div2.childNodes.length);
+      console.log(div2.firstChild.nodeValue);
+
+      let textNode4 = div2.firstChild.splitText(5); 
+      console.log(div2.firstChild.nodeValue);
+      console.log(textNode4.nodeValue);
+      console.log(div2.childNodes.length);
+
+      let myDiv = document.getElementById('myDiv');
+      let comment = myDiv.firstChild;
+      console.log(comment.data);
+
+      let comment2 = document.createComment('B comment');
+      myDiv.appendChild(comment2);
+      console.log(comment2.data);
+
+      let fragment = document.createDocumentFragment();
+      let ul = document.getElementById('myList');
+
+      for (let i = 0; i < 3; ++i) {
+        let li = document.createElement('li');
+        li.appendChild(document.createTextNode(`Item ${i + 1}`));
+        fragment.appendChild(li);
+      }
+      ul.appendChild(fragment);
+      console.log('---')
+
+
+      let attr = document.createAttribute('align');
+      attr.value = 'right';
+      let div4 = document.getElementById('div4');
+      div4.setAttributeNode(attr);
+      console.log(div4.attributes['align'].value);
+      console.log(div4.getAttributeNode('align').value);
+      console.log(div4.getAttribute('align'));
+    </script>
+  </body>
+</html>
