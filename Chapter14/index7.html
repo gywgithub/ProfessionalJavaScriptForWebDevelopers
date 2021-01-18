@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <!-- <link rel="stylesheet" type="text/css" herf="styles.css" > -->
+  </head>
+  <body>
+    <script>
+      function loadScript(url) {
+        let script = document.createElement('script');
+        script.src = url;
+        document.body.appendChild(script);
+      }
+
+      // loadScript('client.js');
+
+      let script2 = document.createElement('script');
+      script2.appendChild(document.createTextNode("function sayHi(){console.log('hi');}"));
+      document.body.appendChild(script2);
+
+      sayHi();
+
+      let link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'styles.css';
+      let head = document.getElementsByTagName('head')[0];
+      head.appendChild(link);
+
+      console.log('---');
+
+      let style = document.createElement('style');
+      style.type = 'text/css';
+      style.appendChild(document.createTextNode("body{background-color: #eee;}"));
+      let head2 = document.getElementsByTagName('head')[0];
+      head2.appendChild(style);
+
+      console.log('===');
+
+      let table = document.createElement('table');
+      table.border = 1;
+      table.width = '100%';
+
+      let tbody = document.createElement('tbody');
+      table.appendChild(tbody);
+
+      tbody.insertRow(0);
+      tbody.rows[0].insertCell(0);
+      tbody.rows[0].cells[0].appendChild(document.createTextNode('Cell 1,1'));
+      tbody.rows[0].insertCell(1);
+      tbody.rows[0].cells[1].appendChild(document.createTextNode('Cell 2,1'));
+
+      tbody.insertRow(1);
+      tbody.rows[1].insertCell(0);
+      tbody.rows[1].cells[0].appendChild(document.createTextNode('Cell 1,2'));
+      tbody.rows[1].insertCell(1);
+      tbody.rows[1].cells[1].appendChild(document.createTextNode('Cell 2,2'));
+
+      document.body.appendChild(table);
+
+      console.log('---');
+
+      // let observer = new MutationObserver(() => console.log('DOM was mutated!'));
+      // console.log(observer);
+      // observer.observe(document.body, { attributes: true });
+
+      // document.body.className = 'foo';
+      // console.log('Changed body class');
+
+      // // ---
+
+      // let observer = new MutationObserver((mutationRecords) => { console.log(mutationRecords); });
+
+      // observer.observe(document.body, { attributes: true });
+
+      // document.body.setAttribute('foo', 'bar');
+      // document.body.setAttributeNS('baz', 'foo', 'bar');
+
+      // observer.disconnect();
+
+      // document.body.className = 'bar';
+
+      // // ---
+
+      // let observer = new MutationObserver((mutationRecords) => console.log(mutationRecords.map((x) => x.target)));
+      // let childA = document.createElement('div'),
+      //     childB = document.createElement('span');
+      // document.body.appendChild(childA);
+      // document.body.appendChild(childB);
+      // observer.observe(childA, { attributes: true });
+      // observer.observe(childB, { attributes: true });
+
+      // childA.setAttribute('foo', 'bar');
+      // childB.setAttribute('foo', 'bar');
+
+      // console.log(observer);
+
+      // // ===
+
+      // let observer = new MutationObserver((mutationRecords) => console.log(mutationRecords));
+
+      // document.body.firstChild.textContent = 'foo';
+      // observer.observe(document.body.firstChild, { characterData: true });
+      // document.body.firstChild.textContent = 'foo';
+      // document.body.firstChild.textContent = 'bar';
+      // document.body.firstChild.textContent = 'baz';
+
+      // // ===
+    
+      let observer = new MutationObserver((mutationRecords) => console.log(mutationRecords));
+      observer.observe(document.body, { attributes: true });
+      document.body.className = 'foo';
+      document.body.className = 'bar';
+      document.body.className = 'baz';
+
+      console.log(observer.takeRecords());
+      console.log(observer.takeRecords());
+    </script>
+  </body>
+</html>
