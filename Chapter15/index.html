@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>15.1 Selectors API</title>
+  </head>
+  <body>
+    <div id="myDiv">123
+      <p class="p">abc</p>
+      <p class="p">DEF</p>
+      <p>DEF</p>
+    </div>
+    <div class="selected"></div>
+    <img src="" alt="img" class="button" />
+    <script>
+      let body = document.querySelector('body');
+      console.log(body);
+      
+      let myDiv = document.querySelector('#myDiv');
+      console.log(myDiv);
+
+      let selected = document.querySelector('.selected');
+      console.log(selected);
+
+      let img = document.body.querySelector('img.button');
+      console.log(img);
+
+      let ems = document.getElementById('myDiv').querySelectorAll('em');
+      console.log(ems);
+
+      let selecteds = document.querySelectorAll('.selected');
+      console.log(selecteds);
+
+      let strongs = document.querySelectorAll('p strong');
+      console.log(strongs);
+
+      for (let item of selecteds) {
+        console.log(item);
+        item.className = 'important';
+      }
+
+      for (let item of document.getElementsByTagName('p')) {
+        if (item.matches('.p')) {
+          console.log('p')
+        }
+      }
+
+      console.log('---');
+
+      let parentElement = document.getElementById('myDiv');
+      let currentChildElement = parentElement.firstElementChild;
+      while (currentChildElement) {
+        console.log(currentChildElement);
+        if (currentChildElement === parentElement.lastElementChild) {
+          break;
+        }
+        currentChildElement = currentChildElement.nextElementSibling;
+      }
+    </script>
+  </body>
+</html>
