@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <div id="div1" class="bd user disabled"></div>
+    <script>
+      let div = document.getElementById('div1');
+      // let targetClass = 'user';
+      // let classNames = div.className.split(/\s+/);
+      // console.log(classNames);
+      // let className2 = div.className.split(' ');
+      // console.log(className2);
+      // let idx = classNames.indexOf(targetClass);
+      // if (idx > -1) {
+      //   classNames.splice(idx, 1);
+      // }
+      // div.className = classNames.join(' ');
+
+      div.classList.remove('user');
+
+      div.classList.add('current');
+
+      div.classList.toggle('current');
+
+      div.classList.toggle('current');
+
+      if (div.classList.contains('bd') && !div.classList.contains('disabled')) {
+        console.log('xxx')
+      }
+
+      for (let classN of div.classList) {
+        console.log(classN)
+      }
+    </script>
+  </body>
+</html>
