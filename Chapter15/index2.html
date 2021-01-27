@@ -5,6 +5,7 @@
   </head>
   <body>
     <div id="div1" class="bd user disabled"></div>
+    <button id="myButton">Button</button>
     <script>
       let div = document.getElementById('div1');
       // let targetClass = 'user';
@@ -33,6 +34,21 @@
       for (let classN of div.classList) {
         console.log(classN)
       }
+
+      let button = document.getElementById('myButton');
+      console.log(button);
+
+      button.focus();
+      console.log(document.activeElement === button);
+
+      console.log(document.hasFocus);
+      
+      if (document.readyState == 'complete') {
+        console.log('complete');
+      }
+
+      let head = document.head;
+      console.log(head);
     </script>
   </body>
 </html>
