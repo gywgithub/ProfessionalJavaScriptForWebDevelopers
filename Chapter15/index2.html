@@ -1,54 +1,112 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title></title>
-  </head>
-  <body>
-    <div id="div1" class="bd user disabled"></div>
-    <button id="myButton">Button</button>
-    <script>
-      let div = document.getElementById('div1');
-      // let targetClass = 'user';
-      // let classNames = div.className.split(/\s+/);
-      // console.log(classNames);
-      // let className2 = div.className.split(' ');
-      // console.log(className2);
-      // let idx = classNames.indexOf(targetClass);
-      // if (idx > -1) {
-      //   classNames.splice(idx, 1);
-      // }
-      // div.className = classNames.join(' ');
 
-      div.classList.remove('user');
+<head>
+  <title></title>
+</head>
 
-      div.classList.add('current');
+<body>
+  <div id="div1" class="bd user disabled"></div>
+  <button id="myButton">Button</button>
+  <div id="myDiv" data-appId="12345" data-myname="Nicholas"></div>
+  <div>
+    <div id="content">
+      <p>This is a <strong>paragraph</strong> with a list following it.</p>
+      <ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+      </ul>
+    </div>
+  </div>
+  <div style="margin: 1200px 0;">
+    <form>
+      <input type="text" value="123">
+    </form>
+  </div>
+  <script>
+    let div1 = document.getElementById('div1');
+    // let targetClass = 'user';
+    // let classNames = div.className.split(/\s+/);
+    // console.log(classNames);
+    // let className2 = div.className.split(' ');
+    // console.log(className2);
+    // let idx = classNames.indexOf(targetClass);
+    // if (idx > -1) {
+    //   classNames.splice(idx, 1);
+    // }
+    // div.className = classNames.join(' ');
 
-      div.classList.toggle('current');
+    div1.classList.remove('user');
 
-      div.classList.toggle('current');
+    div1.classList.add('current');
 
-      if (div.classList.contains('bd') && !div.classList.contains('disabled')) {
-        console.log('xxx')
-      }
+    div1.classList.toggle('current');
 
-      for (let classN of div.classList) {
-        console.log(classN)
-      }
+    div1.classList.toggle('current');
 
-      let button = document.getElementById('myButton');
-      console.log(button);
+    if (div1.classList.contains('bd') && !div1.classList.contains('disabled')) {
+      console.log('xxx')
+    }
 
-      button.focus();
-      console.log(document.activeElement === button);
+    for (let classN of div1.classList) {
+      console.log(classN)
+    }
 
-      console.log(document.hasFocus);
-      
-      if (document.readyState == 'complete') {
-        console.log('complete');
-      }
+    let button = document.getElementById('myButton');
+    console.log(button);
 
-      let head = document.head;
-      console.log(head);
-    </script>
-  </body>
+    button.focus();
+    console.log(document.activeElement === button);
+
+    console.log(document.hasFocus);
+
+    if (document.readyState == 'complete') {
+      console.log('complete');
+    }
+
+    let head = document.head;
+    console.log(head);
+
+    console.log(document.characterSet);
+    document.characterSet = 'UTF-8';
+
+    let div = document.getElementById('myDiv');
+    let appId = div.dataset.appId;
+    let myName = div.dataset.myname;
+    console.log('id: ', appId);
+    console.log('myname: ', myName);
+
+    div.dataset.appId = 23456;
+    div.dataset.myname = 'Michael';
+    console.log(div.dataset.myname);
+
+    if (div.dataset.myname) {
+      console.log('dataset myname: ', div.dataset.myname);
+    }
+
+    let div2 = document.getElementById('content');
+    console.log(div2);
+    // div2.outerHTML = '<p>This is a paragraph.</p>';
+
+
+    div2.insertAdjacentHTML('beforebegin', '<p>Hello world!</p>');
+    div2.insertAdjacentText('beforebegin', 'Hello world!');
+
+    div2.insertAdjacentHTML('afterbegin', '<p>Hello world!</p>');
+    div2.insertAdjacentText('afterbegin', 'Hello world!');
+
+    div2.insertAdjacentHTML('beforeend', '<p>Hello world!</p>');
+
+    div2.insertAdjacentHTML('afterend', '<p>Hello world!</p>');
+
+    setTimeout(() => {
+      document.forms[0].scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }, 1500)
+  </script>
+</body>
+
 </html>
