@@ -106,6 +106,16 @@
         block: 'center'
       });
     }, 1500)
+
+    let childCount = div2.children.length;
+    let firstChild = div2.children[0];
+    console.log(childCount);
+    console.log(firstChild);
+
+    console.log(document.documentElement.contains(document.body));
+    let result = document.documentElement.compareDocumentPosition(document.body);
+    console.log('r: ', result);
+    console.log(!!(result & 0x10));
   </script>
 </body>
 

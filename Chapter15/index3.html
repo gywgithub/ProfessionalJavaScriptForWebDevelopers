@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+  <div id="content">
+    <p>This is a <strong>paragraph</strong> with a list following it.</p>
+    <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+  </div>
+  <script>
+    let div = document.getElementById('content');
+    console.log(div);
+    let divText = div.innerText;
+    console.log(divText);
+
+    div.innerText = 'Hello world';
+    console.log(div);
+
+    // div.outerText = 'Hello world';
+    // console.log(div);
+  </script>
+</body>
+
+</html>
