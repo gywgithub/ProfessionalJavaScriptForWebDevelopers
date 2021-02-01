@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <style type="text/css">
+      /* body {
+        padding:0 0;
+      } */
+      div.box {
+        background-color: blue;
+        width: 100px;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="myDiv"></div>
+    <div id="myDiv2" style="background-color: blue; width: 10px; height: 10px !important;"></div>
+    <div style="margin: 20px; padding: 10px;">
+      <div style="padding: 20px; margin: 5px;">
+        <div id="myDiv3" style="width:200px; height:200px;background-color: red;border:2px solid green;"></div>
+      </div>
+    </div>
+    <script>
+      let myDiv = document.getElementById('myDiv');
+      myDiv.style.backgroundColor = 'red';
+      myDiv.style.width = '100px';
+      myDiv.style.height = '100px';
+      myDiv.style.border = '1px solid black';
+      console.log(myDiv.style.cssText);
+
+      console.log('---')
+
+      let myDiv2 = document.getElementById('myDiv2');
+      console.log(myDiv2.style.backgroundColor);
+      console.log(myDiv2.style.width);
+      console.log(myDiv2.style.cssText);
+      console.log(myDiv2.style.length);
+      console.log(myDiv2.style.getPropertyPriority('width'));
+      console.log(myDiv2.style.getPropertyPriority('height'));
+      console.log('===');
+      console.log(myDiv2.style.getPropertyValue('width'));
+      console.log(myDiv2.style.item(0));
+      console.log(myDiv2.style.removeProperty('width'));
+      console.log(myDiv2.style.setProperty('height', '200px', ''));
+
+      console.log(myDiv2.style.cssText);
+      myDiv2.style.cssText = 'width:100px;height:100px;background-color:green;'
+      console.log(myDiv2.style.cssText);
+
+      let prop, value, i, len;
+      for (i = 0, len = myDiv2.style.length; i <len; i++) {
+        console.log(myDiv2.style[i]);
+        prop = myDiv2.style[i];
+        value = myDiv2.style.getPropertyValue(prop);
+        console.log(`${prop} : ${value}`);
+      }
+
+      console.log('~~~')
+
+      let computedStyle = document.defaultView.getComputedStyle(myDiv2,null);
+      console.log(computedStyle);
+      console.log(computedStyle.width);
+      console.log(computedStyle.backgroundColor);
+
+      console.log('$$$')
+
+      let sheet = null;
+      for (let i = 0, len = document.styleSheets.length; i < len; i++) {
+        sheet = document.styleSheets[i];
+        console.log(sheet);
+        console.log(sheet.href);
+      }
+
+      let sheet2 = document.styleSheets[0];
+      let rules = sheet2.cssRules || sheet.rules;
+      console.log(rules);
+      let rule = rules[0];
+      console.log(rule.selectorText);
+      console.log(rule.style.cssText);
+      console.log(rule.style.backgroundColor);
+      console.log(rule.style.width);
+
+      rule.style.backgroundColor = 'red';
+
+      console.log('###')
+
+      let myDiv3 = document.getElementById('myDiv3');
+
+      function getElementLeft(element) {
+        let actualLeft = element.offsetLeft;
+        let current = element.offsetParent;
+
+        while (current !== null) {
+          actualLeft += current.offsetLeft;
+          current = current.offsetParent;
+        }
+        return actualLeft;
+      }
+
+      function getElementTop(element) {
+        let actualTop = element.offsetTop;
+        let current = element.offsetParent;
+
+        while (current !== null) {
+          actualTop += current.offsetTop;
+          current = current.offsetParent;
+        }
+        return actualTop;
+      }
+
+      let div3Left = getElementLeft(myDiv3);
+      let div3Top = getElementTop(myDiv3);
+
+      console.log('offsetLeft: ' + div3Left + ' offsetTop: ' + div3Top);
+
+      console.log('clientWidth: ' + myDiv3.clientWidth + ' clientHeight: ' + myDiv3.clientHeight);
+
+      function scrollToTop(element) {
+        if (element.scrollTop != 0) {
+          element.scrollTop = 0;
+        }
+      }
+
+      let boundingClinetRect = myDiv3.getBoundingClientRect()
+      console.log(boundingClinetRect);
+    </script>
+  </body>
+</html>

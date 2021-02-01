@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Example</title>
+</head>
+
+<body>
+  <div id="div1">
+    <p><b>Hello</b> world!</p>
+    <ul>
+      <li>List item 1</li>
+      <li>List item 2</li>
+      <li>List item 3</li>
+    </ul>
+  </div>
+  <script>
+    let div = document.getElementById('div1');
+    let iterator = document.createNodeIterator(div, NodeFilter.SHOW_ELEMENT, null, false);
+    let node = iterator.nextNode();
+    while (node !== null) {
+      console.log(node.tagName);
+      node = iterator.nextNode();
+    }
+
+    console.log('---')
+
+    let filter = function (node) {
+      return node.tagName.toLowerCase() == 'li' ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    }
+    let walker = document.createTreeWalker(div, NodeFilter.SHOW_ELEMENT, filter, false);
+    console.log(walker);
+    let node2 = walker.nextNode();
+    while (node2 !== null) {
+      console.log(node2.tagName);
+      node2= walker.nextNode();
+    }
+
+    console.log('===')
+    let div1 = document.getElementById('div1');
+    let walker1 = document.createTreeWalker(div1, NodeFilter.SHOW_ELEMENT, null, false);
+    walker1.firstChild();
+    walker1.nextSibling();
+
+    let node1 = walker1.firstChild();
+    console.log(node1);
+    while (node1 !== null) {
+      console.log(node1.tagName);
+      node1 = walker1.nextSibling();
+    }
+
+    let node3 = walker1.nextNode();
+    console.log(node3 === walker.currentNode);
+    walker1.currentNode = document.body;
+    console.log(walker1.currentNode);
+  </script>
+</body>
+
+</html>
