@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Range</title>
+  </head>
+  <body>
+    <p id="p1"><b>Hello</b> world!</p>
+
+    <p id="p3">Paragraph 1</p>
+    <p id="p4">Paragraph 2</p>
+    <script type="text/javascript">
+      // let range1 = document.createRange(),
+      //     range2 = document.createRange(),
+      //     p1 = document.getElementById('p1');
+      // range1.selectNode(p1);
+      // range2.selectNodeContents(p1);
+      // console.log(range1);
+      // console.log(range2);
+
+      let p1 = document.getElementById('p1'),
+          helloNode = p1.firstChild.firstChild,
+          worldNode = p1.lastChild,
+          range = document.createRange();
+
+      // range.setStart(helloNode, 2);
+      // range.setEnd(worldNode, 3);
+
+      // range.deleteContents();
+
+      // let span = document.createElement('span');
+      // span.style.color = 'red';
+      // span.appendChild(document.createTextNode('Inserted text'));
+      // range.insertNode(span);
+
+      range.selectNode(helloNode);
+      let span = document.createElement('span');
+      span.style.backgroundColor = 'yellow';
+      range.surroundContents(span);
+
+      let p3 = document.getElementById('p3'),
+          p4 = document.getElementById('p4'),
+          range4 = document.createRange();
+      range4.setStartAfter(p3);
+      range4.setStartBefore(p4);
+
+      console.log(range4.collapsed);
+
+      let range5 = document.createRange();
+      let range6 = document.createRange();
+      let p5 = document.getElementById('p1');
+      range5.selectNodeContents(p5);
+      range6.selectNodeContents(p5);
+      range6.setEndBefore(p5.lastChild);
+
+      console.log(range5.compareBoundaryPoints(Range.START_TO_START, range6));
+      console.log(range5.compareBoundaryPoints(Range.END_TO_END, range6));
+
+
+      let range7 = range5.cloneRange();
+      
+      range7.detach();
+      range7 = null;
+    </script>
+  </body>
+</html>
