@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <input type="button" value="Click Me" onclick="showMessage()" />
+    <input type="button" value="click me" onclick="console.log(value)" >
+    <input type="button" value="click me" onclick="console.log(event.type)" >
+
+    <br>
+
+    <form method="post">
+      <input type="text" name="username" value="abc">
+      <input type="button" value="Echo Username" onclick="console.log(username.value)">
+    </form>
+
+    <br>
+
+    <input id="myBtn" type="button" value="myBtn" >
+    <script>
+      function showMessage() {
+        console.log('Hello World!');
+      }
+
+      let btn = document.getElementById('myBtn');
+      btn.onclick = function () {
+        console.log('Clicked');
+      }
+
+      btn.onclick = null;
+
+      // btn.addEventListener('click', () => {
+      //   console.log(this.id)
+      // }, false);
+
+      // btn.addEventListener('click', () => {
+      //   console.log('Hello World!')
+      // }, false);
+
+      let handler = function () {
+        console.log(this.id);
+      }
+
+      btn.addEventListener('click', handler, false);
+
+      btn.removeEventListener('click', handler, false);
+
+      // // --- IE ---
+      // var btn = document.getElementById('myBtn');
+      // var handler = function () {
+      //   console.log('Clicked')
+      // }
+      // btn.attachEvent('onclick', handler);
+      // btn.attachEvent('onclick', handler);
+      // btn.detachEvent('onclick', handler);
+      // // --- IE End ---
+
+      document.body.onclick = function (event) {
+        console.log('document click')
+        console.log(event.currentTarget === document.body);
+        console.log(this === document.body);
+        console.log(event.target === document.getElementById('myBtn'));
+      }
+
+      let btn2 = document.getElementById('myBtn');
+      let handler2 = function(event) {
+        switch(event.type) {
+          case 'click':
+            console.log('Clicked');
+            break;
+          case 'mouseover':
+            console.log('m')
+            event.target.style.backgroundColor = 'red';
+            break;
+          case 'mouseout':
+            console.log('o')
+            event.target.style.backgroundColor = '';
+            break;
+        }
+      }
+      btn.onclick = handler2;
+      btn.onmouseover = handler2;
+      btn.onmouseout = handler2;
+
+      let btn3 = document.getElementById('myBtn');
+      btn3.onclick = function (event) {
+        console.log('btn3 clicked');
+        console.log(event.eventPhase);
+        // event.stopPropagation();
+      };
+
+      document.body.addEventListener('click', (event) => {
+        console.log('b c')
+        console.log(event.eventPhase);
+      }, true);
+
+      document.body.onclick = function (event) {
+        console.log('Body clicked');
+        console.log(event.eventPhase);
+      };
+
+      window.addEventListener('load', (event) => {
+        console.log('loaded');
+      });
+
+      window.addEventListener('resize', (event) => {
+        console.log('Resized');
+      });
+
+      document.body.addEventListener('click', (event) => {
+        // 视口坐标
+        console.log(`Client coordinates: ${event.clientX}, ${event.clientY}`);
+
+        // 屏幕坐标
+        console.log(`Screen coordinates: ${event.screenX}, ${event.screenY}`);
+      });
+    </script>
+  </body>
+</html>
