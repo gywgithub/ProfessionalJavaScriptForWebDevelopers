@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <ul id="myLinks">
+      <li id="goSomewhere">Go somewhere</li>
+      <li id="doSomething">Do something</li>
+      <li id="sayHi">Say hi</li>
+    </ul>
+
+    <div id="myDiv">
+      <input type="button" value="Click me" id="myBtn">
+    </div>
+
+    <br><br>
+
+    <input type="button" value="My Button 2" id="myBtn2">
+
+    <br><br>
+
+    <input type="text" value="" id="myTextbox">
+    <div id="myDiv2"></div>
+    <script>
+      let list = document.getElementById('myLinks');
+      list.addEventListener('click', (event) => {
+        let target = event.target;
+        switch(target.id) {
+          case 'doSomething':
+            document.title = `I change the document's title`;
+            break;
+          case 'goSomewhere':
+            location.href = 'https://www.baidu.com';
+            break;
+          case 'sayHi':
+            console.log('hi');
+            break;
+        }
+      });
+
+      let btn = document.getElementById('myBtn');
+
+      btn.onclick = function() {
+        console.log('btn click');
+
+        btn.onclick = null;
+
+        document.getElementById('myDiv').innerHTML = 'Processing...';
+      }
+
+      let btn2 = document.getElementById('myBtn2');
+      let event = document.createEvent('MouseEvents');
+      console.log(event)
+      event.initMouseEvent('click', true, true, document.defaultView, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      btn2.dispatchEvent(event);
+
+      let textbox2 = document.getElementById('myTextbox');
+      if (document.implementation.hasFeature('KeyboardEvents', '3.0')) {
+        event2 = document.createEvent('KeyboardEvent');
+
+        event2.initKeyboardEvent('keydown', true, true, document.defaultView, 'a', 0, 'Shift', 0);
+      }
+      textbox2.dispatchEvent(event);
+
+      let div3 = document.getElementById('myDiv3'),
+          event3;
+
+      div3.addEventListener('myevent', (event) => {
+        console.log('DIV: ' + event.detail);
+      });
+      document.addEventListener('myevent', (event) => {
+        console.log('DOCUMENT: ' + event.detail);
+      });
+
+      if (document.implementation.hasFeature('CustomEvents', '3.0')) {
+        event = document.createEvent('CustomEvent');
+        event.initCustomEvent('myevent', true, false, 'Hello world');
+        div3.dispatchEvent(event);
+      }
+    </script>
+  </body>
+</html>
