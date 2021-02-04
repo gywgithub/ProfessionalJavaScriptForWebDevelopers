@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <div id="myDiv" style="height:200px;background-color: #ccc;"></div>
+    <ul id="myMenu" style="position:absolute;visibility:hidden;background-color:silver;">
+      <li><a href="http://www.somewhere.com">somewhere</a></li>
+      <li><a href="http://www.somewhere.com">Wrox site</a></li>
+      <li><a href="http://www.somewhere.com">somewhere-else</a></li>
+    </ul>
+    <input type="text" id="myText" value="" />
+    <script>
+      let div = document.getElementById('myDiv');
+      div.addEventListener('click', (event) => {
+        let keys = new Array();
+        if (event.shiftKey) {
+          keys.push('shift');
+        }
+
+        if (event.ctrlKey) {
+          keys.push('ctrl');
+        }
+
+        if (event.altKey) {
+          keys.push('alt');
+        }
+
+        if (event.metaKey) {
+          keys.push('meta');
+        }
+
+        console.log('Keys: ' + keys.join(','));
+      });
+
+      div.addEventListener('mouseout', (event) => {
+        let target = event.target;
+        console.log('target: ', target);
+        let relatedTarget = event.relatedTarget;
+        console.log(`Moused out of ${target.tagName} to ${relatedTarget.tagName}`);
+      });
+
+      document.addEventListener('mousewheel', (event) => {
+        console.log(event.wheelDelta);
+      });
+
+      let textbox = document.getElementById('myText');
+      textbox.addEventListener('keyup', (event) => {
+        console.log(event.keyCode);
+      });
+
+      textbox.addEventListener('keypress', (event) => {
+        console.log(event.charCode);
+        let loc = event.location || event.keyLocation;
+        if (loc) {
+          console.log(loc);
+        }
+      });
+
+      textbox.addEventListener('textInput', (event) => {
+        console.log('textInput')
+        console.log(event.data);
+      });
+
+      textbox.addEventListener('compositionstart', (event) => {
+        console.log('start');
+        console.log(event.data);
+      });
+      textbox.addEventListener('compositionupdate', (event) => {
+        console.log('update');
+        console.log(event.data);
+      });
+      textbox.addEventListener('compositionend', (event) => {
+        console.log('end');
+        console.log(event.data);
+      });
+
+      window.addEventListener('load', (event) => {
+        let div2 = document.getElementById('myDiv');
+
+        div2.addEventListener('contextmenu', (event) => {
+          event.preventDefault();
+
+          let menu = document.getElementById('myMenu');
+          menu.style.left = event.clientX + 'px';
+          menu.style.top = event.clientY + 'px';
+          menu.style.visibility = 'visible';
+        });
+
+        document.addEventListener('click', (event) => {
+          document.getElementById('myMenu').style.visibility = 'hidden';
+        });
+      });
+
+      // window.addEventListener('beforeunload', (event) => {
+      //   // only ie
+      //   let message = "I'm really going to miss you if you go.";
+      //   event.returnValue = message;
+      //   return message;
+      // });
+
+      document.addEventListener('readystatechange', (event) => {
+        if (document.readyState == 'interactive') {
+          console.log('Content loaded');
+        }
+      });
+
+      (function () {
+        let showCount = 0;
+
+        window.addEventListener('load', () => {
+          console.log('Load fired');
+        });
+
+        window.addEventListener('pageshow', () => {
+          showCount++;
+          console.log(`Show has been fired ${showCount} times.`, `Persisted? ${event.persisted}`);
+        });
+      })();
+
+      window.addEventListener('hashchange', (event) => {
+        console.log(`Old URL: ${event.oldURL}, New URL: ${event.newURL}`);
+        console.log(`Current hash: ${location.hash}`);
+      });
+
+      window.addEventListener('orientationchange', (event) => {
+        console.log('orientation')
+        console.log(window.orientation);
+      });
+    </script>
+  </body>
+</html>
