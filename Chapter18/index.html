@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <div id="status" style="background-color:red;height:20px;"></div>
+    <script>
+      function updateProgress() {
+        var div = document.getElementById('status');
+        div.style.width = (parseInt(div.style.width, 10) + 5) + '%';
+        if (div.style.left != '100%') {
+          requestAnimationFrame(updateProgress);
+        }
+      }
+      requestAnimationFrame(updateProgress);
+      
+      let requestID = window.requestAnimationFrame(() => {
+        console.log('Repaint');
+      });
+      window.cancelAnimationFrame(requestID);
+    </script>
+  </body>
+</html>
