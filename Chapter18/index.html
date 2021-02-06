@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head></head>
-  <body>
+  <body style="border:2px solid green;height:200vh;">
     <div id="status" style="background-color:red;height:20px;"></div>
     <script>
       function updateProgress() {
@@ -17,6 +17,34 @@
         console.log('Repaint');
       });
       window.cancelAnimationFrame(requestID);
+
+      console.log('---');
+
+
+      // let enqueued = false;
+      let enqueued = true;
+      function expensiveOperation() {
+        console.log('Invoked at', Date.now());
+        // enqueued = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        // expensiveOperation();
+        // if (!enqueued) {
+        //   enqueued = true;
+        //   window.requestAnimationFrame(expensiveOperation);
+        // }
+        
+        if (enqueued) {
+          enqueued = false;
+          window.requestAnimationFrame(expensiveOperation);
+          window.setTimeout(() => {
+            enqueued = true;
+          }, 50)
+        }
+      });
+
+
     </script>
   </body>
 </html>
