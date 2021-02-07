@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <style type="text/css">
+      img {
+        border: 2px solid green;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="drawing" width="200" height="200">A drawing of sothing.</canvas>
+    <script>
+      let drawing = document.getElementById('drawing');
+      if (drawing.getContext) {
+        let context = drawing.getContext('2d');
+        console.log(context);
+
+        context.strokeStyle = 'red';
+        context.fillStyle = '#0000ff';
+
+        // 绘制红色矩形
+        context.fillStyle = '#ff0000';
+        context.fillRect(10, 10, 50, 50);
+
+        // 绘制半透明蓝色矩形
+        context.fillStyle = 'rgba(0, 0, 255, 0.5)';
+        context.fillRect(30, 30, 50, 50);
+
+        // // 绘制红色轮廓的矩形
+        // context.strokeStyle = '#ff0000';
+        // context.strokeRect(10, 10, 50, 50);
+
+        // // 绘制半透明蓝色轮廓的矩形
+        // context.strokeStyle = 'rgba(0, 0, 255, 0.5';
+        // context.strokeRect(30, 30, 50, 50);
+
+
+        let imgURI = drawing.toDataURL('image/png');
+        let image = document.createElement('img');
+        image.src = imgURI;
+        document.body.appendChild(image);
+
+        context.clearRect(40, 40, 10, 10);
+
+      }
+    </script>
+  </body>
+</html>
