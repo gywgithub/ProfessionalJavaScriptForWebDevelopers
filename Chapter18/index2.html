@@ -43,7 +43,26 @@
 
         context.clearRect(40, 40, 10, 10);
 
+        context.beginPath();
+        context.arc(100, 100, 99, 0, 2 * Math.PI, false);
+        context.moveTo(194, 100);
+        context.arc(100, 100, 94, 0, 2 * Math.PI, false);
+
+        context.moveTo(100, 100);
+        context.lineTo(100, 15);
+
+        context.moveTo(100, 100);
+        context.lineTo(35, 100);
+
+        if (context.isPointInPath(100, 100)) {
+          console.log('Point (100, 100) is in the path.');
+        }
+
+        context.stroke();
+
       }
+
+
     </script>
   </body>
 </html>
