@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <style type="text/css">
+      img {
+        border: 2px solid green;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="drawing" width="800" height="600">A drawing of sothing.</canvas>
+    <script>
+      let drawing = document.getElementById('drawing');
+      if (drawing.getContext) {
+        let context = drawing.getContext('2d');
+        console.log(context);
+
+        // context.beginPath();
+        // context.arc(100, 100, 99, 0, 2 * Math.PI, false);
+        // context.moveTo(194, 100);
+        // context.arc(100, 100, 94, 0, 2 * Math.PI, false);
+
+        // context.moveTo(100, 100);
+        // context.lineTo(100, 15);
+
+        // context.moveTo(100, 100);
+        // context.lineTo(35, 100);
+
+        // if (context.isPointInPath(100, 100)) {
+        //   console.log('Point (100, 100) is in the path.');
+        // }
+
+        // // 绘制数字
+        // context.font = 'bold 14px Arial';
+        // context.textAlign = 'center';
+        // context.textBaseline = 'middle';
+        // context.fillText('12', 100, 20);
+        // context.fillText('9', 20, 100);
+        // context.fillText('6', 100, 180);
+        // context.fillText('3', 180, 100);
+
+        // context.textAlign = 'start';
+        // context.fillText('12', 100, 40);
+
+        // context.textAlign = 'end';
+        // context.fillText('12', 100, 60);
+
+
+         // 绘制半透明蓝色轮廓的矩形
+        context.strokeStyle = 'rgba(0, 0, 255, 0.5';
+        context.strokeRect(10, 4, 140, 50);
+        
+
+        let fontSize = 100;
+        context.font = fontSize + 'px Arial';
+        while(context.measureText('Hello World!').width > 140) {
+          fontSize--
+          context.font = fontSize + 'px Arial';
+          console.log(context.measureText('Hello World!').width)
+        }
+
+        context.fillText('Hello World!', 10, 40);
+        context.fillText('Font size is ' + fontSize + 'px' , 10, 90);
+
+
+        context.stroke();
+
+      }
+
+
+    </script>
+  </body>
+</html>
