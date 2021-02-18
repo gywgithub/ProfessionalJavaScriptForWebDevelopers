@@ -9,7 +9,7 @@
     </style>
   </head>
   <body>
-    <canvas id="drawing" width="200" height="200">A drawing of sothing.</canvas>
+    <canvas id="drawing" width="800" height="600" style="border:2px solid #ccc;">A drawing of sothing.</canvas>
     <script>
       let drawing = document.getElementById('drawing');
       if (drawing.getContext) {
@@ -21,19 +21,19 @@
 
         // 绘制红色矩形
         context.fillStyle = '#ff0000';
-        context.fillRect(10, 10, 50, 50);
+        context.fillRect(300, 10, 50, 50);
 
         // 绘制半透明蓝色矩形
         context.fillStyle = 'rgba(0, 0, 255, 0.5)';
-        context.fillRect(30, 30, 50, 50);
+        context.fillRect(330, 30, 50, 50);
 
-        // // 绘制红色轮廓的矩形
-        // context.strokeStyle = '#ff0000';
-        // context.strokeRect(10, 10, 50, 50);
+        // 绘制红色轮廓的矩形
+        context.strokeStyle = '#ff0000';
+        context.strokeRect(10, 10, 50, 50);
 
-        // // 绘制半透明蓝色轮廓的矩形
-        // context.strokeStyle = 'rgba(0, 0, 255, 0.5';
-        // context.strokeRect(30, 30, 50, 50);
+        // 绘制半透明蓝色轮廓的矩形
+        context.strokeStyle = 'rgba(0, 0, 255, 0.5';
+        context.strokeRect(30, 30, 50, 50);
 
 
         let imgURI = drawing.toDataURL('image/png');
@@ -41,22 +41,7 @@
         image.src = imgURI;
         document.body.appendChild(image);
 
-        context.clearRect(40, 40, 10, 10);
-
-        context.beginPath();
-        context.arc(100, 100, 99, 0, 2 * Math.PI, false);
-        context.moveTo(194, 100);
-        context.arc(100, 100, 94, 0, 2 * Math.PI, false);
-
-        context.moveTo(100, 100);
-        context.lineTo(100, 15);
-
-        context.moveTo(100, 100);
-        context.lineTo(35, 100);
-
-        if (context.isPointInPath(100, 100)) {
-          console.log('Point (100, 100) is in the path.');
-        }
+        context.clearRect(340, 40, 10, 10);
 
         context.stroke();
 
