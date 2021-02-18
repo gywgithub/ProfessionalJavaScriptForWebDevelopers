@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <style type="text/css">
+      img {
+        border: 2px solid green;
+      }
+      canvas {
+        border: 1px solid #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <img id="img1" width="200" height="200" src="../imgs/getRandomValues.png" />
+    <canvas id="drawing" width="800" height="800">A drawing of sothing.</canvas>
+    <script>
+      let img1 = document.getElementById('img1');
+      let image = document.images[0];
+      console.log('img1: ', img1);
+      console.log('image: ', image);
+      let drawing = document.getElementById('drawing');
+      if (drawing.getContext) {
+        let context = drawing.getContext('2d');
+
+        setTimeout(() => {
+          context.drawImage(image, 0, 0, 200, 200);
+          context.stroke();
+        }, 1000)
+        
+        // context.beginPath();
+        // context.arc(100, 100, 99, 0, 2 * Math.PI, false);
+
+        // context.moveTo(194, 100);
+        // context.arc(100, 100, 94, 0, 2 * Math.PI, false);
+
+        // context.translate(100, 100);
+
+        // context.rotate(1);
+
+        // context.moveTo(0, 0);
+        // context.lineTo(0, -85);
+
+        // context.moveTo(0, 0);
+        // context.lineTo(-65, 0);
+
+
+        // context.fillStyle = '#ff0000';
+        // context.save();
+
+        // context.fillStyle = '#00ff00';
+        // context.translate(100, 100);
+        // context.save();
+
+        // context.fillStyle = '#0000ff';
+        // context.fillRect(0, 0, 100, 200);
+
+        // context.restore();
+        // context.fillRect(10, 10, 100, 200);
+
+        // context.restore();
+        // context.fillRect(0, 0, 100, 200);
+
+        // context.stroke();
+      }
+    </script>
+  </body>
+</html>
