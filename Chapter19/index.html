@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <style type="text/css">
+  </style>
+</head>
+
+<body>
+  <form id="form1">
+    <ul>
+      <li><input type="radio" name="color" value="red">Red</li>
+      <li><input type="radio" name="color" value="green">Green</li>
+      <li><input type="radio" name="color" value="blue">Blue</li>
+    </ul>
+  </form>
+  <form id="form2">
+    <input type="text" />
+    <input type="submit" value="Submit Form">
+    <input type="reset" value="Reset From">
+  </form>
+  <script>
+    let form = document.getElementById('form1');
+    console.log('form: ', form);
+
+    let colorFields = form.elements['color'];
+    console.log(colorFields.length);
+
+    let firstColorField = colorFields[0];
+    let firstFormField = form.elements[0];
+    console.log(firstColorField);
+    console.log(firstFormField);
+    console.log(firstColorField === firstFormField);
+
+    let firstForm = document.forms[0];
+    console.log('firstForm: ', firstForm);
+
+    let textbox = document.forms[1].elements[0];
+    console.log(textbox);
+    textbox.addEventListener('focus', (event) => {
+      let target = event.target;
+      if (target.style.backgroundColor != 'red') {
+        target.style.backgroundColor = 'yellow';
+      }
+    });
+
+    textbox.addEventListener('blur', (event) => {
+      let target = event.target;
+      target.style.backgroundColor = 'red';
+    });
+
+    textbox.addEventListener('change', (event) => {
+      let target = event.target;
+      target.style.backgroundColor = 'green';
+    });
+
+    textbox.addEventListener('keypress', (event) => {
+      if (!/\d/.test(String.fromCharCode(event.charCode))) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+
+</html>
