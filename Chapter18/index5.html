@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <style type="text/css">
+    canvas {
+      border: 1px solid #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="../imgs/getRandomValues.png" />
+  <canvas id="drawing" width="800" height="800">A drawing of sothing.</canvas>
+  <script>
+    let drawing = document.getElementById('drawing');
+    if (drawing.getContext) {
+      let context = drawing.getContext('2d');
+
+      let image = document.images[0],
+        pattern = context.createPattern(image, 'repeat');
+
+        setTimeout(() => {  
+          // context.fillStyle = pattern;
+          // context.fillRect(10, 10, 150, 150);
+
+          context.drawImage(image, 0, 0);
+          context.stroke();
+
+          let imageData = context.getImageData(10, 5, 50, 50);
+          console.log(imageData);
+
+          console.log('data: ', imageData.data)
+        }, 1000)
+
+        
+    }
+  </script>
+</body>
+
+</html>

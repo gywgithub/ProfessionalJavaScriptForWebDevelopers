@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <style type="text/css">
+    canvas {
+      border: 1px solid #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="drawing" width="800" height="800">A drawing of sothing.</canvas>
+  <script>
+    let drawing = document.getElementById('drawing');
+    if (drawing.getContext) {
+      let gl = drawing.getContext('webgl', { alpha: false });
+      if (gl) {
+        console.log(true)
+
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+
+        gl.viewport(0, 0, drawing.width, drawing.height);
+      }
+    }
+  </script>
+</body>
+
+</html>
