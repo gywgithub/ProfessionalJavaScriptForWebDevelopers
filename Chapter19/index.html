@@ -19,7 +19,17 @@
     <input type="text" />
     <input type="submit" value="Submit Form">
     <input type="reset" value="Reset From">
+    <select name="location" id="selLocation" multiple="true">
+      <option value="Sunnyvale, CA">Sunnyvale</option>
+      <option value="Los Angeles, CA">Los Angeles</option>
+      <option value="Mountain View, CA">Mountain View</option>
+      <option value="">China</option>
+      <option>Australia</option>
+    </select>
+    <br><br>
+    <input type="button" value="Click Me" id="btn1">
   </form>
+
   <script>
     let form = document.getElementById('form1');
     console.log('form: ', form);
@@ -60,6 +70,50 @@
         event.preventDefault();
       }
     });
+
+    let selectbox = document.forms[1].elements['location'];
+    console.log('selectbox: ', selectbox);
+
+    let text = selectbox.options[0].text;
+    let value = selectbox.options[0].value;
+
+    console.log('text: ', text);
+    console.log('value: ', value);
+
+    document.getElementById('btn1').addEventListener('click', (event) => {
+      console.log('btn1 click');
+      let arr = getSelectedOptions(selectbox);
+      console.log(arr);
+
+      let message = '';
+
+      for (let option of arr) {
+        message += 'selected index: ' + option.index + '\n Selected text: ' + option.text + '\n Selected value: ' + option.value
+      }
+
+      console.log(message);
+      // selectbox.options[0].selected = true;
+
+      selectbox.removeChild(selectbox.options[0]);
+    });
+
+    let newOption = document.createElement('option');
+    newOption.appendChild(document.createTextNode('Option text'));
+    newOption.setAttribute('value', 'Option value');
+    selectbox.appendChild(newOption);
+
+    let newOption2 = new Option('option text2', 'option value2');
+    selectbox.appendChild(newOption2);
+
+    function getSelectedOptions(selectbox) {
+      let result = new Array();
+      for (let option of selectbox.options) {
+        if (option.selected) {
+          result.push(option);
+        }
+      }
+      return result;
+    }
   </script>
 </body>
 
