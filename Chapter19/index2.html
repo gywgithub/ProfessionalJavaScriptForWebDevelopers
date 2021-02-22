@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Blank Page for Rich Text Editing</title>
+  <style>
+    .editable {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <iframe name="richedit" style="height:500px;width:500px;"></iframe>
+  <div class="editable" id="richedit" contenteditable></div>
+  <input type="button" id="btn1" value="Button1">
+  <script>
+    window.addEventListener('load', () => {
+      frames['richedit'].document.designMode = 'on';
+
+      // frames["richedit"].document.execCommand("bold", false, null); 
+      // setTimeout(() => {
+      //   frames['richedit'].document.execCommand('bold', false, null);
+      //   frames['richedit'].document.execCommand('italic', false, null);
+      // }, 400)
+
+      let selection = frames['richedit'].getSelection();
+      console.log('selection: ', selection);
+      let selected = selection.toString();
+      let range = selection.getRangeAt(0);
+      let span = frames['richedit'].document.createElement('span');
+      span.style.backgroundColor = 'blue';
+      range.surroundContents(span);
+    });
+
+    let div = document.getElementById('richedit');
+    div.contentEditable = 'true';
+
+    // setTimeout(() => {
+    //   document.execCommand('bold', false, null);
+    // }, 500)
+    let btn1 = document.getElementById('btn1');
+    btn1.addEventListener('click', (event) => {
+      let richeditContent = div.innerHTML;
+      console.log(richeditContent);
+    });
+  </script>
+</body>
+
+</html>

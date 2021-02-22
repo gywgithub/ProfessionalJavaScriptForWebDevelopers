@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <iframe src="http://localhost:52330/Chapter20/index.html" id="myframe"></iframe>
+    <script>
+      let iframeWindow = document.getElementById('myframe').contentWindow;
+      console.log('iframeWindow contextWindow: ', iframeWindow);
+      setTimeout(() => {
+        console.log('1000ms')
+        iframeWindow.postMessage('A secret', 'http://localhost:52330/Chapter20/index.html');
+      }, 1000)
+      
+    </script>
+  </body>
+</html>

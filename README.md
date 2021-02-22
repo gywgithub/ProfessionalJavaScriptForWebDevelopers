@@ -21,3 +21,5 @@
 - Chapter16 - DOM2和DOM3
 - Chapter17 - 事件
 - Chapter18 - 动画与Canvas图形
+- Chapter19 - 表单脚本
+- Chapter20 - JavaScript API
