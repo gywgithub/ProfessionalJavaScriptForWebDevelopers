@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>index5</title>
+  </head>
+  <body>
+    <div style="width:200px;height:200px;border:2px solid red;" id="droptarget">abc</div>
+    <div style="width:100%;height:300px;border:2px solid green;" id="output"></div>
+    <script>
+      let droptarget = document.getElementById('droptarget');
+      function handleEvent() {
+        let info = '',
+            output = document.getElementById('output'),
+            files, i, len;
+        event.preventDefault();
+
+        if (event.type == 'drop') {
+          files = event.dataTransfer.files;
+          i = 0;
+          len = files.length;
+
+          while(i < len) {
+            info += `${files[i].name} (${files[i].type}, ${files[i].size} bytes)<br>`;
+            i++;
+          }
+
+          output.innerHTML = info;
+        }
+      }
+
+      droptarget.addEventListener('dragenter', handleEvent);
+      droptarget.addEventListener('dragover', handleEvent);
+      droptarget.addEventListener('drop', handleEvent);
+    </script>
+  </body>
+</html>
