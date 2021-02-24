@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <div draggable="true" style="width:200px;height:100px;border:2px solid orange;">123</div>
+    <div id="dragtarget" style="width:200px;height:160px;border:2px solid green;">drag div</div>
+    <div id="droptarget" style="width:400px;height:300px;border:2px solid red;">droptarget</div>
+    <script>
+      let dragtarget = document.getElementById('dragtarget');
+
+      dragtarget.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('text', 'drag div');
+
+        let text = event.dataTransfer.getData('text');
+        console.log('dragstart: ', text);
+      });
+
+      let droptarget = document.getElementById('droptarget');
+
+      droptarget.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        console.log(1);
+      });
+
+      droptarget.addEventListener('dragenter', (event) => {
+        event.preventDefault();
+        console.log('event ', event);
+        console.log(2);
+      });
+
+      droptarget.addEventListener('drop', (event) => {
+        event.preventDefault();
+        console.log(3);
+
+        let textData = event.dataTransfer.getData('text');
+        console.log('textData: ', textData);
+      });
+    </script>
+  </body>
+</html>
