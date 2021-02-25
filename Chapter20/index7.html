@@ -24,6 +24,10 @@
         n.close();
       }, 5000);
 
+      // 监听页面是否可见
+      document.addEventListener('visibilitychange', function () {
+        console.log(document.visibilityState);
+      });
     </script>
   </body>
 </html>

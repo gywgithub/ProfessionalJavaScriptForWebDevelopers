@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Streams API</title>
+  </head>
+  <body>
+    <script>
+      async function* ints() {
+        for (let i = 0; i < 5; ++i) {
+          yield await new Promise((resolve) => setTimeout(resolve, 1000, i));
+        }
+      }
+    </script>
+  </body>
+</html>
