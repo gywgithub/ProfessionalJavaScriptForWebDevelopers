@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>计时API</title>
+</head>
+
+<body>
+  <script>
+    function foo() {
+      return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          console.log('1000')
+          resolve();
+        }, 1000);
+      })
+    }
+    const t0 = Date.now();
+    foo();
+    const t1 = Date.now();
+
+    const duration = t1 - t0;
+    console.log(duration);
+  </script>
+</body>
+
+</html>

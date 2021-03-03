@@ -7,9 +7,96 @@
     <script>
       async function* ints() {
         for (let i = 0; i < 5; ++i) {
+          console.log(i)
           yield await new Promise((resolve) => setTimeout(resolve, 1000, i));
         }
       }
+
+      const { writable, readable } = new TransformStream({
+        transform(chunk, controller) {
+          controller.enqueue(chunk * 2);
+        }
+      });
+
+      const writableStream = new WritableStream({
+        write(value) {
+          console.log(value);
+        }
+      })
+
+      const readableStream = new ReadableStream({
+        async start(controller) {
+          for await (let chunk of ints()) {
+            controller.enqueue(chunk);
+          }
+          // console.log(controller);
+          controller.close();
+        }
+      });
+
+      const integerStream = new ReadableStream({
+        async start(controller) {
+          for await (let chunk of ints()) {
+            controller.enqueue(chunk);
+          }
+          // console.log(controller);
+          controller.close();
+        }
+      });
+
+      console.log(writableStream.locked);
+      const writableStreamDefaultWriter = writableStream.getWriter();
+      console.log(writableStream.locked);
+
+
+
+      // console.log(readableStream.locked);
+
+      // const readableStreamDefaultReader = readableStream.getReader();
+      // console.log(readableStream.locked);
+
+
+      const doublingStream = new TransformStream({
+        transform(chunk, controller) {
+          controller.enqueue(chunk * 2);
+        }
+      });
+
+      // 通过管道连接流
+      const pipedStream = integerStream.pipeThrough(doublingStream);
+
+      // 从连接流的输出获得读取器
+      const pipedStreamDefaultReader = pipedStream.getReader();
+
+      // 消费者
+      (async function() {
+        while(true) {
+          const { done, value } = await pipedStreamDefaultReader.read();
+          if (done) {
+            break;
+          } else {
+            console.log(value);
+          }
+        }
+      })();
+
+      // // 生产者
+      // (async function() {
+      //   for await (let chunk of ints()) {
+      //     await writableStreamDefaultWriter.ready;
+      //     writableStreamDefaultWriter.write(chunk);
+      //   }
+      //   writableStreamDefaultWriter.close();
+      // })();
+
+      // const writableStream = new WritableStream({
+      //   write(value) {
+      //     console.log(value);
+      //   }
+      // });
+
+      // const pipedStream = integerStream.pipeTo(writableStream);
+      // console.log(pipedStream);
     </script>
   </body>
 </html>
