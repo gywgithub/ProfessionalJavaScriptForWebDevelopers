@@ -21,6 +21,28 @@
 
     const duration = t1 - t0;
     console.log(duration);
+
+    console.log('---');
+
+    const t2 = performance.now();
+    const t3 = performance.now();
+
+    console.log(t2);
+    console.log(t3);
+
+    const duration2 = t3 - t2;
+    console.log(duration2);
+
+    const relativeTimestamp = performance.now();
+
+    const absoluteTimestamp = performance.timeOrigin + relativeTimestamp;
+
+    console.log(relativeTimestamp);
+
+    console.log(absoluteTimestamp);
+
+    console.log(performance.getEntries());
+
   </script>
 </body>
 

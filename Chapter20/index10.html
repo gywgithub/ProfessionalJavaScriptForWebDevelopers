@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web组件</title>
+  </head>
+  <body>
+    <div id="foo"></div>
+    <script>
+      const fragment = new DocumentFragment();
+
+      const foo = document.querySelector('#foo');
+
+      fragment.appendChild(document.createElement('p'));
+      fragment.appendChild(document.createElement('p'));
+      fragment.appendChild(document.createElement('p'));
+
+      console.log(fragment.children.length);
+
+      foo.appendChild(fragment);
+
+      console.log(fragment.children.length);
+
+      console.log(document.body.innerHTML);
+    </script>
+  </body>
+</html>
