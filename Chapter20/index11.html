@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web组件 II</title>
+  </head>
+  <body>
+    <div id="foo"></div>
+    <template id="bar">
+      <!-- <p>1</p>
+      <p>2</p>
+      <p>3</p> -->
+      <script>console.log('Template script executed');</script>
+    </template>
+  </body>
+  <script>
+    const fooElement = document.querySelector("#foo");
+    const barTemplate = document.querySelector("#bar");
+    const barFragment = barTemplate.content;
+
+    // console.log(document.body.innerHTML);
+    console.log('About to add template')
+
+    // fooElement.appendChild(document.importNode(barTemplate, true));
+    // console.log(document.body.innerHTML)
+    
+    fooElement.appendChild(barFragment);
+
+    console.log('Added template');
+  </script>
+</html>

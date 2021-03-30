@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <script>
+      // document.body.innerTHML = `
+      //   <div></div>
+      //   <p id="foo">Move me</p>
+      // `
+
+      // const divElement = document.querySelector('div');
+      // const pElement = document.querySelector('p');
+
+      // const shadowDOM = divElement.attachShadow({ mode: 'open' });
+      // divElement.parentElement.removeChild(pElement);
+
+      // shadowDOM.appendChild(pElement);
+
+      // console.log(shadowDOM.innerHTML);
+
+      // -------------------------
+      // ---- slot ----
+      // for (let color of ['red', 'green', 'blue']) {
+      //   const divElement = document.createElement('div');
+      //   divElement.innerText = `Make me ${color}`;
+      //   document.body.appendChild(divElement);
+
+      //   divElement
+      //     .attachShadow({ mode: 'open' })
+      //     .innerHTML = `
+      //       <p><slot></slot></p>
+      //       <style>
+      //         p {
+      //           color: ${color};
+      //         }
+      //       </style>
+      //     `
+      // }
+
+
+      // -----------------------
+      // --- event retarget ---
+      // document.body.innerTHML = `
+      //   <div onclick="console.log('Handled outside:', event.target)"></div>
+      // `
+
+      // setTimeout(() => {
+      //   document.querySelector('div')
+      //   .attachShadow({ mode: 'open' })
+      //   .innerHTML = `
+      //     <button onclick="console.log('Handled inside:', event.target)">Foo</button>
+      //   `
+      // }, 500)
+     
+    </script>
+  </body>
+</html>
