@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Web Cryptography API</title>
+  </head>
+  <body>
+    <script>
+      // const array = new Uint8Array(1);
+
+      // for (let i = 0; i < 5; ++i) {
+      //   console.log(crypto.getRandomValues(array));
+      // }
+
+      // const fooArray = new Uint8Array(2 ** 16);
+      // console.log(window.crypto.getRandomValues(fooArray));
+
+      // // const barArray = new Uint8Array(2 ** 16 + 1);
+      // // console.log(window.crypto.getRandomValues(barArray)); // Error
+
+      // function randomFloat() {
+      //   const fooArray = new Uint32Array(1);
+
+      //   const maxUint32 = 0xffffffff;
+
+      //   return crypto.getRandomValues(fooArray)[0] / maxUint32;
+      // }
+
+      // console.log(randomFloat());
+
+      // ----------------------------------------------------
+
+      // console.log(crypto.subtle);
+
+      // (async function () {
+      //   const textEncoder = new TextEncoder();
+      //   const message = textEncoder.encode("foo");
+      //   const messageDigest = await crypto.subtle.digest("SHA-256", message);
+
+      //   const hexDigest = Array.from(new Uint8Array(messageDigest))
+      //     .map((x) => x.toString(16).padStart(2, '0'))
+      //     .join('')
+
+      //   // console.log(new Uint32Array(messageDigest));
+
+      //   console.log(hexDigest)
+      // })();
+
+      // ---------------------------------------------------------
+
+      (async function() {
+        const mozillaCdnUrl = '// downloadorigin.cdn.mozilla.net/pub/firefox/releases/67.0 /'
+        const firefoxBinaryFilename = 'linux-86_64/en-US/firefox-67.0.tar.bz2'
+        const firefoxShaFilename = 'SHA512SUMS'
+
+        console.log('Fetching Firefox binary...')
+        const fileArrayBuffer = await (await fetch(mozillaCdnUrl + firefoxBinaryFilename)).arrayBuffer()
+
+        console.log('Calculating Firefox digest...')
+        const firefoxBinaryDigest = await crypto.subtile.digest('SHA-512', fileArrayBuffer);
+        const firefoxHexDigest = Array.from(new Uint8Array(firefoxBinaryDigest))
+          .map((x) => x.toString(16).padStart(2, '0'))
+          .join('')
+        
+        console.log('Fetching published binary digests...')
+
+        const shaPairs = (await (await fetch(mozillaCdnUrl + firefoxShaFilename)).text())
+          .split(/\n/).map((x) => x.split(/\s+/))
+
+        let verifeid = false
+        console.log('Checking calculated digest againest published digests...')
+
+        for (const [sha, filename] of shaPairs) {
+          if (filename === firefoxBinaryFilename) {
+            if (sha === firefoxHexDigest) {
+              verified = true
+              break
+            }
+          }
+        }
+
+        console.log('Verified: ', verified)
+      })()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>自定义元素</title>
+  </head>
+  <body>
+    <!-- <template id="x-foo-tp1">
+      <p>I'm inside a custom element template!</p>
+    </template> -->
+    <script>
+      // class FooElement extends HTMLElement {}
+      // customElements.define('x-foo', FooElement)
+
+      // document.body.innerHTML = `
+      //   <x-foo >I'm inside a nonsense element.</x-foo >
+      // `
+      // console.log(document.querySelector('x-foo') instanceof HTMLElement)
+      // console.log(document.querySelector('x-foo') instanceof FooElement)
+
+      // -------------------------------------------------------------
+
+      // class FooElement extends HTMLElement {
+      //   constructor() {
+      //     super();
+      //     console.log('x-foo')
+      //   }
+      // }
+      // customElements.define('x-foo', FooElement)
+
+      // document.body.innerHTML = `
+      //   <x-foo></x-foo>
+      //   <x-foo></x-foo>
+      //   <x-foo></x-foo>
+      // `
+
+      // ----------------------------------------------------------------------
+
+      // // const template = document.querySelector('#x-foo-tp1')
+      // class FooElement extends HTMLElement {
+      //   constructor() {
+      //     super()
+      //     // console.log('x-foo')
+
+      //     // this.attachShadow({ mode: 'open' })
+      //     // this.shadowRoot.innerHTML = `
+      //     //   <p>I'm inside a custom element!</p>
+      //     // `
+      //     // this.shadowRoot.appendChild(template.content.cloneNode(true))
+
+      //     // this.shadowRoot.appendChild(template.content.cloneNode(true))
+      //     console.log('ctor')
+      //   }
+
+      //   connectedCallback() {
+      //     console.log('connected')
+      //   }
+
+      //   disconnectedCallback() {
+      //     console.log('disconnected')
+      //   }
+      // }
+
+      // customElements.define('x-foo', FooElement)
+      // const fooElement = document.createElement('x-foo')
+      // document.body.appendChild(fooElement)
+
+      // document.body.removeChild(fooElement)
+
+
+      // // customElements.define('x-foo', FooElement, { extends: 'div' })
+      // // document.body.innerHTML = `
+      // // <div is="x-foo"></div>
+      // // <div is="x-foo"></div>
+      // // <div is="x-foo"></div>
+      // // `
+
+      // // customElements.define('x-foo', FooElement)
+      // // document.body.innerHTML += `<x-foo></x-foo>`
+
+
+      // ----------------------------------------------------
+
+      // document.body.innerHTML = `<x-foo></x-foo>`
+      
+      // class FooElement extends HTMLElement {
+      //   static get observedAttributes() {
+      //     return ['bar']
+      //   }
+
+      //   // constructor() {
+      //   //   super()
+      //   //   this.bar = true
+      //   // }
+
+      //   get bar() {
+      //     return this.getAttribute('bar')
+      //   }
+
+      //   set bar(value) {
+      //     this.setAttribute('bar', value)
+      //   }
+
+      //   attributeChangeCallback(name, oldValue, newValue) {
+      //     if (oldValue !== newValue) {
+      //       console.log(`${oldValue} -> ${newValue}`)
+
+      //       this[name] = newValue
+      //     }
+      //   }
+      // }
+
+
+
+      // customElements.define('x-foo', FooElement)
+      // // console.log(document.body.innerHTML)
+
+      // document.body.innerHTML = `<x-foo bar="false"></x-foo>`
+
+      // document.querySelector('x-foo').setAttribute('bar', true)
+
+      // --------------------------------------------------
+
+      // customElements.whenDefined('x-foo').then(() => console.log('defined!'))
+
+      // console.log(customElements.get('x-foo'))
+
+      // customElements.define('x-foo', class {})
+
+      // --------------------------------------------------
+      
+      const fooElement = document.createElement('x-foo')
+
+      class FooElement extends HTMLElement {}
+        
+      customElements.define('x-foo', FooElement)
+
+      console.log(fooElement instanceof FooElement)
+
+      customElements.upgrade(fooElement)
+
+      console.log(fooElement instanceof FooElement)
+    </script>
+  </body>
+</html>
