@@ -47,38 +47,71 @@
 
       // ---------------------------------------------------------
 
-      (async function() {
-        const mozillaCdnUrl = '// downloadorigin.cdn.mozilla.net/pub/firefox/releases/67.0 /'
-        const firefoxBinaryFilename = 'linux-86_64/en-US/firefox-67.0.tar.bz2'
-        const firefoxShaFilename = 'SHA512SUMS'
+      // (async function() {
+      //   const mozillaCdnUrl = '// downloadorigin.cdn.mozilla.net/pub/firefox/releases/67.0 /'
+      //   const firefoxBinaryFilename = 'linux-86_64/en-US/firefox-67.0.tar.bz2'
+      //   const firefoxShaFilename = 'SHA512SUMS'
 
-        console.log('Fetching Firefox binary...')
-        const fileArrayBuffer = await (await fetch(mozillaCdnUrl + firefoxBinaryFilename)).arrayBuffer()
+      //   console.log('Fetching Firefox binary...')
+      //   const fileArrayBuffer = await (await fetch(mozillaCdnUrl + firefoxBinaryFilename)).arrayBuffer()
 
-        console.log('Calculating Firefox digest...')
-        const firefoxBinaryDigest = await crypto.subtile.digest('SHA-512', fileArrayBuffer);
-        const firefoxHexDigest = Array.from(new Uint8Array(firefoxBinaryDigest))
-          .map((x) => x.toString(16).padStart(2, '0'))
-          .join('')
+      //   console.log('Calculating Firefox digest...')
+      //   const firefoxBinaryDigest = await crypto.subtile.digest('SHA-512', fileArrayBuffer);
+      //   const firefoxHexDigest = Array.from(new Uint8Array(firefoxBinaryDigest))
+      //     .map((x) => x.toString(16).padStart(2, '0'))
+      //     .join('')
         
-        console.log('Fetching published binary digests...')
+      //   console.log('Fetching published binary digests...')
 
-        const shaPairs = (await (await fetch(mozillaCdnUrl + firefoxShaFilename)).text())
-          .split(/\n/).map((x) => x.split(/\s+/))
+      //   const shaPairs = (await (await fetch(mozillaCdnUrl + firefoxShaFilename)).text())
+      //     .split(/\n/).map((x) => x.split(/\s+/))
 
-        let verifeid = false
-        console.log('Checking calculated digest againest published digests...')
+      //   let verifeid = false
+      //   console.log('Checking calculated digest againest published digests...')
 
-        for (const [sha, filename] of shaPairs) {
-          if (filename === firefoxBinaryFilename) {
-            if (sha === firefoxHexDigest) {
-              verified = true
-              break
-            }
-          }
+      //   for (const [sha, filename] of shaPairs) {
+      //     if (filename === firefoxBinaryFilename) {
+      //       if (sha === firefoxHexDigest) {
+      //         verified = true
+      //         break
+      //       }
+      //     }
+      //   }
+
+      //   console.log('Verified: ', verified)
+      // })()
+
+      // -------------------------------------------
+
+      // (async function() {
+      //   const params = {
+      //     name: 'AES-CTR',
+      //     length: 128
+      //   }
+
+      //   const keyUsages = ['encrypt', 'decrypt']
+      //   const key = await crypto.subtle.generateKey(params, false, keyUsages)
+      //   console.log(key)
+      // })()
+
+      // ---------------------------------------------
+      //       生成一个满足如下条件的非对称密钥：
+      //  支持 ECDSA 算法；
+      //  使用 P-256 椭圆曲线；
+      //  可以从 CryptoKey 中提取；
+      //  可以跟 sign()和 verify()方法一起使用
+
+      (async function() {
+        const params = {
+          name: 'ECDSA',
+          namedCurve: 'P-256'
         }
+        const keyUsages = ['sign', 'verify']
 
-        console.log('Verified: ', verified)
+        const {publicKey, privateKey} = await crypto.subtle.generateKey(params, true, keyUsages)
+
+        console.log(publicKey)
+        console.log(privateKey)
       })()
     </script>
   </body>
