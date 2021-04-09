@@ -101,18 +101,125 @@
       //  可以从 CryptoKey 中提取；
       //  可以跟 sign()和 verify()方法一起使用
 
+      // (async function() {
+      //   const params = {
+      //     name: 'ECDSA',
+      //     namedCurve: 'P-256'
+      //   }
+      //   const keyUsages = ['sign', 'verify']
+
+      //   const {publicKey, privateKey} = await crypto.subtle.generateKey(params, true, keyUsages)
+
+      //   console.log(publicKey)
+      //   console.log(privateKey)
+      // })()
+
+      // ---------------------------------------------
+      // 导入导出密钥
+      // (async function() {
+      //   const params = {
+      //     name: 'AES-CTR',
+      //     length: 128
+      //   }
+      //   const keyUsages = ['encrypt', 'decrypt']
+      //   const key = await crypto.subtle.generateKey(params, true, keyUsages)
+      //   const rawKey = await crypto.subtle.exportKey('raw', key)
+
+      //   console.log(new Uint8Array(rawKey))
+      // })()
+
+      // (async function() {
+      //   const params = {
+      //     name: 'AES-CTR',
+      //     length: 128
+      //   }
+      //   const keyUsages = ['encrypt', 'decrypt']
+      //   const keyFormat = 'raw'
+      //   const isExtractable = true
+        
+      //   const key = await crypto.subtle.generateKey(params, isExtractable, keyUsages)
+        
+      //   const rawKey = await crypto.subtle.exportKey(keyFormat, key)
+
+      //   const importedKey = await crypto.subtle.importKey(keyFormat, rawKey, params.name, isExtractable, keyUsages)
+
+      //   console.log(importedKey)
+      // })()
+
+      // -------------------------------
+      // 从主密钥派生密钥
+      // (async function() {
+      //   const ellipticCurve = 'P-256';
+      //   const algoIdentifier = 'ECDH';
+      //   const derivedKeySize = 128;
+
+      //   const params = {
+      //     name: algoIdentifier,
+      //     namedCurve: ellipticCurve
+      //   };
+
+      //   const keyUsages = ['deriveBits'];
+
+      //   const keyPairA = await crypto.subtle.generateKey(params, true, keyUsages);
+      //   const keyPairB = await crypto.subtle.generateKey(params, true, keyUsages);
+
+      //   // 从A的公钥和B的私钥派生密钥位
+      //   const derivedBitsAB = await crypto.subtle.deriveBits(
+      //     Object.assign({ public: keyPairA.publicKey }, params),
+      //     keyPairB.privateKey,
+      //     derivedKeySize
+      //   );
+
+      //   // 从B的公钥和A的公钥派生密钥位
+      //   const derivedBitsBA = await crypto.subtle.deriveBits(
+      //     Object.assign({ public: keyPairB.publicKey }, params),
+      //     keyPairA.privateKey,
+      //     derivedKeySize
+      //   );
+
+      //   const arrayAB = new Uint32Array(derivedBitsAB);
+      //   const arrayBA = new Uint32Array(derivedBitsBA);
+
+      //   console.log(
+      //     arrayAB.length === arrayBA.length &&
+      //     arrayAB.every((val, i) => val === arrayBA[i])
+      //   );
+      // })();
+
       (async function() {
+        const password = 'foobar';
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const algoIdentifier = 'PBKDF2';
+        const keyFormat = 'raw';
+        const isExtractable = false;
+
         const params = {
-          name: 'ECDSA',
-          namedCurve: 'P-256'
-        }
-        const keyUsages = ['sign', 'verify']
+          name: algoIdentifier
+        };
 
-        const {publicKey, privateKey} = await crypto.subtle.generateKey(params, true, keyUsages)
+        const masterKey = await window.crypto.subtle.importKey(
+          keyFormat,
+          (new TextEncoder()).encode(password),
+          params,
+          isExtractable,
+          ['deriveKey']
+        );
 
-        console.log(publicKey)
-        console.log(privateKey)
-      })()
+        const deriveParams = {
+          name: 'AES-GCM',
+          length: 128
+        };
+
+        const derivedKey = await window.crypto.subtle.deriveKey(
+          Object.assign({salt, iterations: 1E5, hash: 'SHA-256'}, params),
+          masterKey,
+          deriveParams,
+          isExtractable,
+          ['encrypt']
+        );
+
+        console.log(derivedKey);
+      })();
     </script>
   </body>
 </html>
