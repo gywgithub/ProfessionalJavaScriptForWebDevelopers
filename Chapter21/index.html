@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>错误处理与调试</title>
+  </head>
+  <body>
+    <script>
+      console.log(1)
+      // throw 12345;
+      // console.log(2)
+
+      // throw new Error('Something bad happened.')
+
+      class CustomError extends Error {
+        constructor(message) {
+          super(message);
+          this.name = 'CustomError';
+          this.message = message;
+        }
+      }
+
+      throw new CustomError('My message');
+    </script>
+  </body>
+</html>
