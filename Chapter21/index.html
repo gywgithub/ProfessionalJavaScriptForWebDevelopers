@@ -20,6 +20,30 @@
       }
 
       throw new CustomError('My message');
+
+
+      function concat(str1, str2, str3) {
+        let result = str1 + str2
+        if (typeof str3 === 'string') {
+          result += str3
+        }
+        return result
+      }
+
+      function reverseSort(values) {
+        if (values instanceof Array) {
+          values.sort()
+          values.reverse()
+        }
+      }
+
+      // 日志记录
+      function logError(sev, msg) {
+        let img = new Image(),
+            encodedSev = encodeURIComponent(sev),
+            encodedMsg = encodeURIComponent(msg);
+        img.src = 'log.php?sev=${encodedSev}&msg=${encodedMsg}'
+      }
     </script>
   </body>
 </html>
