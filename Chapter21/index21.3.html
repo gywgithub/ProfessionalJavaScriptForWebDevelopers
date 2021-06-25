@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>调试技术</title>
-  </head>
-  <body>
-    <script>
-      console.log(1)
-    </script>
-  </body>
+
+<head>
+  <title>调试技术</title>
+</head>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/js-base64@3.6.0/base64.min.js"></script>
+
+<body>
+  <script>
+    console.log(1)
+    // debugger
+    console.log('a')
+
+
+    function log(message) {
+      let console = document.getElementById('debuginfo')
+      if (console === null) {
+        console = document.createElement('div')
+        console.id = 'debuginfo'
+        console.style.background = '#dedede'
+        console.style.border = '1px solid silver'
+        console.style.padding = '5px'
+        console.style.width = '400px'
+        console.style.position = 'absolute'
+        console.style.right = '0px'
+        console.style.top = '0px'
+        document.body.appendChild(console)
+      }
+      console.innerHTML += `<p> ${message} </p>`
+    }
+
+    log('test console info')
+
+    setTimeout(() => {
+      console.log('1000 ms')
+
+
+      var url = 'http://10.255.98.223:8888/group1/M00/00/02/Cv9i32Con0OAKb9YAABrPRxn-5g57.docx'; //要预览文件的访问地址
+      window.open('http://10.255.98.223:8012/onlinePreview?url=' + encodeURIComponent(Base64.encode(url)));
+    }, 1000)
+  </script>
+</body>
+
 </html>
