@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body>
+  <script>
+    // let xmldom = document.implementation.createDocument('', 'root', null)
+    // console.log(xmldom.documentElement.tagName)
+
+    // let child = xmldom.createElement('child')
+    // xmldom.documentElement.appendChild(child)
+
+    console.log('---')
+
+    let parser = new DOMParser()
+    let xmldom = parser.parseFromString('<root><child/></root>', 'text/xml')
+
+    console.log(xmldom.documentElement.tagName)
+    console.log(xmldom.documentElement.firstChild.tagName)
+
+    let anotherChild = xmldom.createElement('child')
+    xmldom.documentElement.appendChild(anotherChild)
+
+    let children = xmldom.getElementsByTagName('child')
+    console.log(children.length)
+
+    let serializer = new XMLSerializer()
+    let xml = serializer.serializeToString(xmldom)
+    console.log(xml)
+
+    console.log('===')
+
+    let supportXPath = document.implementation.hasFeature('XPath', '3.0')
+    console.log(supportXPath)
+
+    console.log('111')
+
+    // let result = xmldom.evaluate('employee/name', xmldom.documentElement, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null)
+    // if (result !== null) {
+    //   let element = result.iterateNext()
+    //   while (element) {
+    //     console.log(element.tagName)
+    //     node = result.iterateNext()
+    //   }
+    // }
+
+    // let result = xmldom.evaluate('employee/name', xmldom.documentElement, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null)
+    // if (result) {
+    //   for (let i = 0, len = result.snapshotLength; i < len; i++) {
+    //     console.log(result.snapshotItem(i).tagName)
+    //   }
+    // }
+
+    console.log('222')
+
+    let processor = new XSLTProcessor()
+    processor.importStylesheet(xmldom)
+    processor.setParameter(null, 'message', 'Hello World!')
+    let result = processor.transformToDocument(xmldom)
+    console.log(result)
+  </script>
+</body>
+
+</html>
