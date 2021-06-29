@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body>
+  <script>
+    let book = {
+      title: "Professional JavaScript",
+      authors: [
+        "Nicholas C. Zakas",
+        "Matt Frisbie"
+      ],
+      edition: 4,
+      year: 2017,
+      releaseDate: new Date(2017, 11, 1)
+    };
+
+    console.log(book);
+    let jsonText = JSON.stringify(book);
+    // let jsonText = JSON.stringify(book, ["title", "edition"]);
+    // let jsonText = JSON.stringify(book, (key, value) => {
+    //   switch(key) {
+    //     case "authors":
+    //       return value.join(",");
+    //     case "year":
+    //       return 5000;
+    //     case "edition":
+    //       return undefined;
+    //     default:
+    //       return value;
+    //   }
+    // });
+    console.log(jsonText);
+    // let bookCopy = JSON.parse(jsonText);
+    let bookCopy = JSON.parse(jsonText, (key, value) => key == "releaseDate" ? new Date(value) : value);
+    console.log(bookCopy);
+    console.log(bookCopy.releaseDate.getFullYear());
+  </script>
+</body>
+
+</html>
