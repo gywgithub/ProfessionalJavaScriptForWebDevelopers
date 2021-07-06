@@ -56,6 +56,64 @@
     xhr.send(new FormData(form))
 
     // -- 24.3 -- //
+    // options 请求，预检请求 CORS
+    // Access-Control-Allow-Origin
+    // Access-Control-Allow-Methods
+    // Access-Control-Allow-Headers
+    // Access-Control-Max-Age
+    // Access-Control-Allow-Credentials
+
+    // -- 24.4 image pings  -- //
+    let img = new Image();
+    img.onload = img.onerror = function () {
+      console.log('Done')
+    }
+    img.src = 'http://www.example.com/test?name=Nicholas';
+
+    // -- 24.5 fetch -- //
+
+    let r = fetch('/bar');
+    console.log(r);
+    fetch('bar.txt').then(res => {
+      console.log(res);
+      res.text();
+      console.log(res.url);
+    }).then(data => {
+      console.log(data);
+    });
+
+    // fetch json
+    let payload = JSON.stringify({
+      foo: 'bar'
+    });
+
+    let jsonHeaders = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    fetch('/send-me-json', {
+      method: 'POST',
+      body: payload,
+      headers: jsonHeaders
+    });
+
+    // blob
+    const imageElement = document.querySelector('img')
+    fetch('my-image.png').then((response) => {
+      response.blob();
+    }).then(blob => {
+      imageElement.src = URL.createObjectURL(blob);
+    });
+
+    // AbortController/AbortSignal
+    let abortController = new AbortController();
+
+    fetch('wikipedia.zip', { signal: abortController.signal })
+      .catch(() => console.log('aborted!'));
+
+    setTimeout(() => abortController.abort(), 10);
+
+    // -- 24.5.3 Headers 对象 -- // 
   </script>
 </body>
 
