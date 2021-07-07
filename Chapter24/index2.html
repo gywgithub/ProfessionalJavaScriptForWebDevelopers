@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body>
+  <script>
+    // let seed = [['foo', 'bar']];
+
+    // let h = new Headers(seed);
+    // let m = new Map(seed);
+
+    // console.log(h.get('foo'));
+    // console.log(m.get('foo'));
+
+    let seed = [['foo', 'bar'], ['baz', 'qux']];
+
+    let h = new Headers(seed);
+    let m = new Map(seed);
+
+    console.log(...h.keys());
+    console.log(...m.keys());
+
+    console.log(...h.values());
+    console.log(...m.values());
+
+    console.log(...h.entries());
+    console.log(...m.entries());
+
+    // 24.5.4 Request 对象
+  </script>
+</body>
+
+</html>

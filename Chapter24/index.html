@@ -114,6 +114,21 @@
     setTimeout(() => abortController.abort(), 10);
 
     // -- 24.5.3 Headers 对象 -- // 
+    let h = new Headers();
+    let m = new Map();
+
+    h.set('foo', 'bar');
+    m.set('foo', 'bar');
+
+    console.log(h.has('foo'));
+    console.log(m.has('foo'));
+
+    console.log(h.has('qux'));
+    console.log(m.has('qux'));
+
+    console.log(h.get('foo'));
+    h.set('foo', 'baz');
+    h.delete('foo');
   </script>
 </body>
 
