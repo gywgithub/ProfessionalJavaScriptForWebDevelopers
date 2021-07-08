@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body>
+  <script>
+    // fetch('https://fetch.spec.whatwg.org/')
+    //   .then((response) => response.body)
+    //   .then((body) => {
+    //     let reader = body.getReader();
+    //     console.log(reader);
+    //     reader.read()
+    //       .then(console.log);
+    //   })
+
+    // fetch('https://fetch.spec.whatwg.org/')
+    //   .then((response) => response.body)
+    //   .then((body) => {
+    //     let reader = body.getReader();
+        
+    //     function processnNextChunk({value, done}) {
+    //       if (done) {
+    //         return;
+    //       }
+
+    //       console.log(value);
+
+    //       return reader.read()
+    //         .then(processnNextChunk)
+    //     }
+
+    //     return reader.read()
+    //       .then(processnNextChunk);
+    //   });
+
+    // fetch('https://fetch.spec.whatwg.org/')
+    //   .then((response) => response.body)
+    //   .then(async function(body) {
+    //     let reader = body.getReader();
+
+    //     while(true) {
+    //       let { value, done } = await reader.read();
+
+    //       if (done) {
+    //         break;
+    //       }
+
+    //       console.log(value);
+    //     }
+    //   });
+
+
+    // fetch('https://fetch.spec.whatwg.org/')
+    //   .then((response) => response.body)
+    //   .then(async function(body) {
+    //     let reader = body.getReader();
+
+    //     let asyncIterable = {
+    //       [Symbol.asyncIterator]() {
+    //         return {
+    //           next() {
+    //             return reader.read();
+    //           }
+    //         };
+    //       }
+    //     };
+
+    //     for await (chunk of asyncIterable) {
+    //       console.log(chunk);
+    //     }
+    //   });
+
+
+    //   async function* streamGenerator(stream) {
+    //     const reader = stream.getReader();
+    //     try {
+    //       while (true) {
+    //         const { value, done } = await reader.read();
+
+    //         if (done) {
+    //           break;
+    //         }
+
+    //         yield value;
+    //       }
+    //     } finally {
+    //       reader.releaseLock();
+    //     }
+    //   }
+
+    //   fetch('https://fetch.spec.whatwg.org/')
+    //     .then((response) => response.body)
+    //     .then(async function(body) {
+    //       for await (chunk of streamGenerator(body)) {
+    //         console.log(chunk);
+    //       }
+    //     });
+
+    // let decoder = new TextDecoder();
+
+    // async function* streamGenerator(stream) {
+    //   const reader = stream.getReader();
+
+    //   try {
+    //     while (true) {
+    //       const { value, done } = await reader.read();
+
+    //       if (done) {
+    //         break;
+    //       }
+
+    //       yield value;
+    //     }
+    //   } finally {
+    //     reader.releaseLock();
+    //   }
+    // }
+
+    // fetch('https://fetch.spec.whatwg.org/')
+    //   .then((response) => response.body)
+    //   .then(async function(body) {
+    //     for await (chunk of streamGenerator(body)) {
+    //       console.log(decoder.decode(chunk, { stream: true }));
+    //     }
+    //   })
+
+
+    // 双流技术
+    fetch('https://fetch.spec.whatwg.org/')
+      .then((response) => response.body)
+      .then((body) => {
+        const reader = body.getReader();
+
+        return new ReadableStream({
+          async start(controller) {
+            try {
+              while (true) {
+                const {value, done} = await reader.read();
+                if (done) {
+                  break;
+                }
+                controller.enqueue(value);
+              }
+            } finally {
+              controller.close();
+              reader.releaserLock();
+            }
+          }
+        })
+      })
+      .then((secondaryStream) => new Response(secondaryStream))
+      .then(response => response.text())
+      .then(console.log);
+
+    // 24.6 Beacon API
+  </script>
+</body>
+
+</html>

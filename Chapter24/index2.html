@@ -30,6 +30,40 @@
     console.log(...m.entries());
 
     // 24.5.4 Request 对象
+    let r = new Request('https://foo.com');
+    console.log(r);
+
+    console.log(new Request('https://foo.com', { method: 'POST' }));
+
+    let r1 = new Request('https://foo.com');
+    let r2 = new Request(r1);
+
+    console.log(r2.url);
+
+    let r3 = new Request('https://foo.com', { method: 'POST', body: 'foobar' });
+    let r4 = new Request(r3);
+
+    console.log(r3.bodyUsed);
+    console.log(r4.bodyUsed);
+
+    // 24.5.5 Response 对象
+    let r5 = new Response();
+    console.log(r5);
+
+    let r6 = new Response('foobar', {
+      status: 418,
+      statusText: `I'm a teapot`
+    });
+    console.log(r6);
+
+    // ---
+    fetch('https://foo.com')
+      .then((response) => response.text())
+      .then(console.log);
+
+    let request = new Request('https://foo.com', { method: 'POST', body: 'barbazqux' });
+    request.text()
+      .then(console.log)
   </script>
 </body>
 
