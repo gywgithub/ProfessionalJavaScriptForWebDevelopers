@@ -7,8 +7,31 @@
 
 <body>
   <script>
+    // cookie
     document.cookie = 'name=Nicholas'
     document.cookie = encodeURIComponent('name') + '=' + encodeURIComponent('Nicholas') + '; domain=.worx.com; path=/'
+
+    // sessionStorage
+    window.sessionStorage.setItem('name', 'Nicholas');
+    window.sessionStorage.book = 'Professional JavaScript';
+
+    let name = window.sessionStorage.getItem('name');
+    let book = window.sessionStorage.book;
+
+    delete window.sessionStorage.name;
+    window.sessionStorage.removeItem('book');
+
+    // localStorage
+    window.localStorage.setItem('name', 'Nicholas');
+    window.localStorage.book = 'Professional JavaScript';
+
+    let name1 = window.localStorage.getItem('name');
+    let book1 = window.localStorage.book;
+
+    // storage event
+    window.addEventListener('storage', (event) => {
+      console.log(`Storage changed for ${event.domain}`);
+    })
   </script>
 </body>
 
