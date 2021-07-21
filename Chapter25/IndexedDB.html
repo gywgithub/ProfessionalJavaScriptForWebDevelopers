@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Chapter 25 - IndexedDB</title>
+</head>
+
+<body>
+  <script>
+  let db,
+    request,
+    version = 1;
+
+  request = indexedDB.open('admin', version);
+  request.onerror = (event) => {
+    console.log(0);
+    console.log(`Failed to open: ${event.target.errorCode}`);
+  };
+  request.onsuccess = (event) => {
+    console.log(1);
+    db = event.target.result;
+    console.log(db);
+    // let transaction = db.transaction('users', 'readwrite');
+    const transaction = db.transaction('users', 'readwrite'),
+      store = transaction.objectStore('users'),
+      request = store.get('007');
+
+    console.log(11);
+    console.log(request);
+
+    transaction.onerror = (event) => {
+      console.log('affair cancel');
+    };
+
+    transaction.oncomplete = (event) => {
+      console.log('affair complete');
+    };
+    console.log(transaction);
+
+    let users = [{
+      username: '007',
+      firstName: 'James',
+      lastName: 'Bond',
+      password: 'foo'
+    }, {
+      username: '008',
+      firstName: 'James8',
+      lastName: 'Bond8',
+      password: 'foo8'
+    }];
+    // console.log(users);
+
+    // let request,
+    //   requests = [];
+    let request2,
+      requests = [];
+    for (let u of users) {
+      console.log(u);
+      request2 = store.add(u);
+      request2.onerror = () => {
+        console.log('request2 error ');
+      };
+      request2.onsuccess = () => {
+        console.log('request2 success ');
+      };
+      requests.push(request2);
+    }
+    console.log(requests);
+  };
+
+  console.log(request);
+  // console.log(db);
+
+  // let user = {
+  //   username: '007',
+  //   firstName: 'James',
+  //   lastName: 'Bond',
+  //   password: 'foo'
+  // };
+
+  request.onupgradeneeded = (event) => {
+    console.log(2);
+    const db = event.target.result;
+
+    if (db.objectStoreNames.contains('users')) {
+      db.deleteObjectStore('users');
+    }
+
+    db.createObjectStore('users', { keyPath: 'username' });
+  };
+
+  // // let transaction = db.transaction();
+
+  // // let transaction = db.transaction('users');
+
+  // // let transaction = db.transaction(['users', 'anotherStore']);
+
+  // let transaction = db.transaction('users', 'readwrite');
+
+  // console.log(transaction);
+  </script>
+</body>
+
+</html>
