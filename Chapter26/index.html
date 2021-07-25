@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Chapter 26</title>
+</head>
+
+<body>
+  <script>
+  // var Foo = (function() {
+  //   console.log('bar');
+  //   return {
+  //     bar: 'baz',
+  //     baz: function() {
+  //       console.log(this.bar);
+  //     }
+  //   };
+  // })();
+  // console.log(Foo.bar);
+  // Foo.baz();
+
+  var globalBar = 'baz';
+  var Foo = (function(bar) {
+    return {
+      bar: bar,
+      baz: function() {
+        console.log(bar);
+      }
+    };
+  })(globalBar);
+
+  console.log(Foo.bar);
+  Foo.baz();
+
+  // 26.3
+  </script>
+</body>
+
+</html>
