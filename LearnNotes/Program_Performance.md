@@ -770,3 +770,291 @@ function getElementTop(element) {
 使用 JavaScript 也可以在浏览器中模拟事件。DOM2 Events 和 DOM3 Events 规范提供了模拟方法，可以模拟所有原生 DOM 事件。键盘事件一定程度上也是可以模拟的，有时候需要组合其他技术。IE8及更早版本也支持事件模拟，只是接口与 DOM 方式不同。事件是 JavaScript 中最重要的主题之一，理解事件的原理及其对性能的影响非常重要。
 
 #### 第 18 章 动画与 Canvas 图形
+
+图形和动画已经日益成为浏览器中现代 Web 应用程序的必备功能，但实现起来仍然比较困难。视觉上复杂的功能要求性能调优和硬件加速，不能拖慢浏览器。目前已经有一套日趋完善的 API 和工具可
+以用来开发此类功能。
+
+毋庸置疑，<canvas>是 HTML5 最受欢迎的新特性。这个元素会占据一块页面区域，让 JavaScript可以动态在上面绘制图片。<canvas>最早是苹果公司提出并准备用在控制面板中的，随着其他浏览器
+的迅速跟进，HTML5 将其纳入标准。目前所有主流浏览器都在某种程度上支持<canvas>元素。
+
+与浏览器环境中的其他部分一样，<canvas>自身提供了一些 API，但并非所有浏览器都支持这些API，其中包括支持基础绘图能力的 2D 上下文和被称为 WebGL 的 3D 上下文。支持的浏览器的最新版
+本现在都支持 2D 上下文和 WebGL
+
+##### 18.4.2 WebGL 基础
+
+取得 WebGL 上下文后，就可以开始 3D 绘图了。如前所述，因为 WebGL 是 OpenGL ES 2.0 的 Web版，所以本节讨论的概念实际上是 JavaScript 所实现的 OpenGL 概念。
+可以在调用 getContext()取得 WebGL 上下文时指定一些选项。这些选项通过一个参数对象传入，选项就是参数对象的一个或多个属性。
+
+- alpha：布尔值，表示是否为上下文创建透明通道缓冲区，默认为 true。
+- depth：布尔值，表示是否使用 16 位深缓冲区，默认为 true。
+- stencil：布尔值，表示是否使用 8 位模板缓冲区，默认为 false。
+- antialias：布尔值，表示是否使用默认机制执行抗锯齿操作，默认为 true。
+- premultipliedAlpha：布尔值，表示绘图缓冲区是否预乘透明度值，默认为 true。
+- preserveDrawingBuffer：布尔值，表示绘图完成后是否保留绘图缓冲区，默认为 false。
+
+建议在充分了解这个选项的作用后再自行修改，因为这可能会影响性能。
+
+可以像下面这样传入 options 对象：
+
+~~~
+let drawing = document.getElementById("drawing"); 
+// 确保浏览器支持<canvas> 
+if (drawing.getContext) { 
+ let gl = drawing.getContext("webgl", { alpha: false }); 
+ if (gl) { 
+ // 使用 WebGL 
+ } 
+} 
+~~~
+
+这些上下文选项大部分适合开发高级功能。多数情况下，默认值就可以满足要求。
+
+#### 第 20 章  JavaScript API
+
+随着 Web 浏览器能力的增加，其复杂性也在迅速增加。从很多方面看，现代 Web 浏览器已经成为构建于诸多规范之上、集不同 API 于一身的“瑞士军刀”。浏览器规范的生态在某种程度上是混乱而无
+序的。一些规范如 HTML5，定义了一批增强已有标准的 API 和浏览器特性。而另一些规范如 Web Cryptography API 和 Notifications API，只为一个特性定义了一个API。不同浏览器实现这些新 API 的情况也不同，有的会实现其中一部分，有的则干脆尚未实现。
+
+最终，是否使用这些比较新的 API 还要看项目是支持更多浏览器，还是要采用更多现代特性。有些API 可以通过腻子脚本来模拟，但腻子脚本通常会带来性能问题，此外也会增加网站 JavaScript 代码的体积。
+
+##### 20.1.2 原子操作基础
+
+任何全局上下文中都有 Atomics 对象，这个对象上暴露了用于执行线程安全操作的一套静态方法，其中多数方法以一个 TypedArray 实例（一个 SharedArrayBuffer 的引用）作为第一个参数，以相关操作数作为后续参数。
+
+任何全局上下文中都有 Atomics 对象，这个对象上暴露了用于执行线程安全操作的一套静态方法，其中多数方法以一个 TypedArray 实例（一个 SharedArrayBuffer 的引用）作为第一个参数，以相关操作数作为后续参数。
+
+以下代码演示了所有算术方法：
+
+~~~
+// 创建大小为 1 的缓冲区
+let sharedArrayBuffer = new SharedArrayBuffer(1); 
+// 基于缓冲创建 Uint8Array 
+let typedArray = new Uint8Array(sharedArrayBuffer); 
+// 所有 ArrayBuffer 全部初始化为 0 
+console.log(typedArray); // Uint8Array[0]
+const index = 0; 
+const increment = 5; 
+// 对索引 0 处的值执行原子加 5 
+Atomics.add(typedArray, index, increment); 
+console.log(typedArray); // Uint8Array[5]
+// 对索引 0 处的值执行原子减 5 
+Atomics.sub(typedArray, index, increment); 
+console.log(typedArray); // Uint8Array[0]
+~~~
+
+Atomics API 还提供了 Atomics.isLockFree()方法。不过我们基本上应该不会用到。这个方法在高性能算法中可以用来确定是否有必要获取锁。规范中的介绍如下：
+Atomics.isLockFree()是一个优化原语。基本上，如果一个原子原语（compareExchange、load、store、add、sub、and、or、xor 或 exchange）在 n 字节大小的数据上的原子步骤
+在不调用代理在组成数据的n字节之外获得锁的情况下可以执行，则Atomics.isLockFree(n)会返回 true。高性能算法会使用 Atomics.isLockFree 确定是否在关键部分使用锁或原子
+操作。如果原子原语需要加锁，则算法提供自己的锁会更高效。
+
+Atomics.isLockFree(4)始终返回 true，因为在所有已知的相关硬件上都是支持的。能够如此假设通常可以简化程序。
+
+##### 20.3 Encoding API 
+
+Encoding API 主要用于实现字符串与定型数组之间的转换。规范新增了 4 个用于执行转换的全局类：TextEncoder、TextEncoderStream、TextDecoder 和 TextDecoderStream。
+
+> 注意 相比于批量（bulk）的编解码，对流（stream）编解码的支持很有限。
+
+
+20.3.1 文本编码
+
+Encoding API 提供了两种将字符串转换为定型数组二进制格式的方法：批量编码和流编码。把字符串转换为定型数组时，编码器始终使用 UTF-8。
+
+1. 批量编码
+
+所谓批量，指的是 JavaScript 引擎会同步编码整个字符串。对于非常长的字符串，可能会花较长时间。批量编码是通过 TextEncoder 的实例完成的：
+
+~~~
+const textEncoder = new TextEncoder(); 
+这个实例上有一个 encode()方法，该方法接收一个字符串参数，并以 Uint8Array 格式返回每个字符的 UTF-8 编码：
+const textEncoder = new TextEncoder(); 
+const decodedText = 'foo'; 
+const encodedText = textEncoder.encode(decodedText);
+// f 的 UTF-8 编码是 0x66（即十进制 102）
+// o 的 UTF-8 编码是 0x6F（即二进制 111）
+console.log(encodedText); // Uint8Array(3) [102, 111, 111] 
+编码器是用于处理字符的，有些字符（如表情符号）在最终返回的数组中可能会占多个索引：
+const textEncoder = new TextEncoder(); 
+const decodedText = '☺'; 
+const encodedText = textEncoder.encode(decodedText); 
+// ☺的 UTF-8 编码是 0xF0 0x9F 0x98 0x8A（即十进制 240、159、152、138）
+console.log(encodedText); // Uint8Array(4) [240, 159, 152, 138] 
+编码器实例还有一个 encodeInto()方法，该方法接收一个字符串和目标 Unit8Array，返回一个字典，该字典包含 read 和 written 属性，分别表示成功从源字符串读取了多少字符和向目标数组写入了多少字符。如果定型数组的空间不够，编码就会提前终止，返回的字典会体现这个结果：
+const textEncoder = new TextEncoder(); 
+const fooArr = new Uint8Array(3); 
+const barArr = new Uint8Array(2); 
+const fooResult = textEncoder.encodeInto('foo', fooArr);
+const barResult = textEncoder.encodeInto('bar', barArr);
+console.log(fooArr); // Uint8Array(3) [102, 111, 111] 
+console.log(fooResult); // { read: 3, written: 3 }
+console.log(barArr); // Uint8Array(2) [98, 97] 
+console.log(barResult); // { read: 2, written: 2 }
+encode()要求分配一个新的 Unit8Array，encodeInto()则不需要。对于追求性能的应用，这个差别可能会带来显著不同。
+~~~
+
+> 注意 文本编码会始终使用 UTF-8 格式，而且必须写入 Unit8Array 实例。使用其他类型数组会导致 encodeInto()抛出错误。
+
+##### 20.10 计时 API
+
+页面性能始终是 Web 开发者关心的话题。Performance 接口通过 JavaScript API 暴露了浏览器内部的度量指标，允许开发者直接访问这些信息并基于这些信息实现自己想要的功能。这个接口暴露在
+window.performance 对象上。所有与页面相关的指标，包括已经定义和将来会定义的，都会存在于这个对象上。
+Performance 接口由多个 API 构成：
+
+- High Resolution Time API 
+- Performance Timeline API 
+- Navigation Timing API 
+- User Timing API 
+- Resource Timing API 
+- Paint Timing API 
+
+有关这些规范的更多信息以及新增的性能相关规范，可以关注 W3C 性能工作组的 GitHub 项目页面。
+
+##### 20.10.2 Performance Timeline API 
+
+Performance Timeline API 使用一套用于度量客户端延迟的工具扩展了 Performance 接口。性能度量将会采用计算结束与开始时间差的形式。这些开始和结束时间会被记录为 DOMHighResTimeStamp值，而封装这个时间戳的对象是 PerformanceEntry 的实例。
+浏览器会自动记录各种 PerformanceEntry 对象，而使用 performance.mark()也可以记录自定义的 PerformanceEntry 对象。在一个执行上下文中被记录的所有性能条目可以通过 performance. 
+getEntries()获取：
+
+~~~
+console.log(performance.getEntries()); 
+// [PerformanceNavigationTiming, PerformanceResourceTiming, ... ] 
+这个返回的集合代表浏览器的性能时间线（performance timeline）。每个 PerformanceEntry 对象都有 name、entryType、startTime 和 duration 属性：
+const entry = performance.getEntries()[0]; 
+console.log(entry.name); // "https://foo.com" 
+console.log(entry.entryType); // navigation 
+console.log(entry.startTime); // 0 
+console.log(entry.duration); // 182.36500001512468
+不过，PerformanceEntry 实际上是一个抽象基类。所有记录条目虽然都继承 PerformanceEntry，但最终还是如下某个具体类的实例：
+- PerformanceMark
+- PerformanceMeasure
+- PerformanceFrameTiming
+- PerformanceNavigationTiming
+- PerformanceResourceTiming
+- PerformancePaintTiming
+上面每个类都会增加大量属性，用于描述与相应条目有关的元数据。每个实例的 name 和 entryType属性会因为各自的类不同而不同。
+1. User Timing API 
+User Timing API 用于记录和分析自定义性能条目。如前所述，记录自定义性能条目要使用
+performance.mark()方法：
+performance.mark('foo'); 
+console.log(performance.getEntriesByType('mark')[0]); 
+// PerformanceMark { 
+// name: "foo", 
+// entryType: "mark", 
+// startTime: 269.8800000362098, 
+// duration: 0 
+// } 
+在计算开始前和结束后各创建一个自定义性能条目可以计算时间差。最新的标记（mark）会被推到getEntriesByType()返回数组的开始：
+performance.mark('foo'); 
+for (let i = 0; i < 1E6; ++i) {} 
+performance.mark('bar'); 
+const [endMark, startMark] = performance.getEntriesByType('mark'); 
+console.log(startMark.startTime - endMark.startTime); // 1.3299999991431832 
+除了自定义性能条目，还可以生成 PerformanceMeasure（性能度量）条目，对应由名字作为标识的两个标记之间的持续时间。PerformanceMeasure 的实例由 performance.measure()方法生成：
+performance.mark('foo'); 
+for (let i = 0; i < 1E6; ++i) {} 
+performance.mark('bar'); 
+performance.measure('baz', 'foo', 'bar'); 
+const [differenceMark] = performance.getEntriesByType('measure');
+console.log(differenceMark); 
+// PerformanceMeasure { 
+// name: "baz", 
+// entryType: "measure", 
+// startTime: 298.9800000214018, 
+// duration: 1.349999976810068 
+// }
+~~~
+
+3. Resource Timing API 
+Resource Timing API 提供了高精度时间戳，用于度量当前页面加载时请求资源的速度。浏览器会在加载资源时自动记录 PerformanceResourceTiming。这个对象会捕获大量时间戳，用于描述资源加载的速度。
+下面的例子计算了加载一个特定资源所花的时间：
+
+~~~
+const performanceResourceTimingEntry = performance.getEntriesByType('resource')[0]; 
+console.log(performanceResourceTimingEntry); 
+// PerformanceResourceTiming { 
+// connectEnd: 138.11499997973442 
+// connectStart: 138.11499997973442 
+// decodedBodySize: 33808 
+// domainLookupEnd: 138.11499997973442 
+// domainLookupStart: 138.11499997973442 
+// duration: 0 
+// encodedBodySize: 33808 
+// entryType: "resource" 
+// fetchStart: 138.11499997973442 
+// initiatorType: "link" 
+// name: "https://static.foo.com/bar.png", 
+// nextHopProtocol: "h2" 
+// redirectEnd: 0 
+// redirectStart: 0 
+// requestStart: 138.11499997973442 
+// responseEnd: 138.11499997973442 
+// responseStart: 138.11499997973442 
+// secureConnectionStart: 0 
+// serverTiming: [] 
+// startTime: 138.11499997973442 
+// transferSize: 0 
+// workerStart: 0 
+// } 
+console.log(performanceResourceTimingEntry.responseEnd – 
+ performanceResourceTimingEntry.requestStart); 
+// 493.9600000507198 
+~~~
+
+通过计算并分析不同时间的差，可以更全面地审视浏览器加载页面的过程，发现可能存在的性能瓶颈。
+
+##### 20.12.2 使用 SubtleCrypto 对象
+
+Web Cryptography API 重头特性都暴露在了 SubtleCrypto 对象上，可以通过 window.crypto.subtle 访问：
+
+~~~
+console.log(crypto.subtle); // SubtleCrypto {}
+~~~
+
+这个对象包含一组方法，用于执行常见的密码学功能，如加密、散列、签名和生成密钥。因为所有密码学操作都在原始二进制数据上执行，所以 SubtleCrypto 的每个方法都要用到 ArrayBuffer 和
+ArrayBufferView 类型。由于字符串是密码学操作的重要应用场景，因此 TextEncoder 和TextDecoder 是经常与 SubtleCrypto 一起使用的类，用于实现二进制数据与字符串之间的相互转换。
+
+> 注意 SubtleCrypto 对象只能在安全上下文（https）中使用。在不安全的上下文中，subtle 属性是 undefined。
+
+1. 生成密码学摘要
+
+计算数据的密码学摘要是非常常用的密码学操作。这个规范支持 4 种摘要算法：SHA-1 和 3 种SHA-2。
+- SHA-1（Secure Hash Algorithm 1）：架构类似 MD5 的散列函数。接收任意大小的输入，生成160 位消息散列。由于容易受到碰撞攻击，这个算法已经不再安全。
+- SHA-2（Secure Hash Algorithm 2）：构建于相同耐碰撞单向压缩函数之上的一套散列函数。规范支持其中 3 种：SHA-256、SHA-384 和 SHA-512。生成的消息摘要可以是 256 位（SHA-256）、
+384 位（SHA-384）或 512 位（SHA-512）。这个算法被认为是安全的，广泛应用于很多领域和协议，包括 TLS、PGP 和加密货币（如比特币）。
+
+2. CryptoKey 与算法
+
+如果没了密钥，那密码学也就没什么意义了。SubtleCrypto 对象使用 CryptoKey 类的实例来生成密钥。CryptoKey 类支持多种加密算法，允许控制密钥抽取和使用。
+CryptoKey 类支持以下算法，按各自的父密码系统归类。
+- RSA（Rivest-Shamir-Adleman）：公钥密码系统，使用两个大素数获得一对公钥和私钥，可用于签名/验证或加密/解密消息。RSA 的陷门函数被称为分解难题（factoring problem）。
+- RSASSA-PKCS1-v1_5：RSA 的一个应用，用于使用私钥给消息签名，允许使用公钥验证签名。
+- SSA（Signature Schemes with Appendix），表示算法支持签名生成和验证操作。
+- PKCS1（Public-Key Cryptography Standards #1），表示算法展示出的 RSA 密钥必需的数学特性。
+- RSASSA-PKCS1-v1_5 是确定性的，意味着同样的消息和密钥每次都会生成相同的签名。
+- RSA-PSS：RSA 的另一个应用，用于签名和验证消息。
+- PSS（Probabilistic Signature Scheme），表示生成签名时会加盐以得到随机签名。
+- 与 RSASSA-PKCS1-v1_5 不同，同样的消息和密钥每次都会生成不同的签名。
+- 与 RSASSA-PKCS1-v1_5 不同，RSA-PSS 有可能约简到 RSA 分解难题的难度。
+- 通常，虽然 RSASSA-PKCS1-v1_5 仍被认为是安全的，但 RSA-PSS 应该用于代替RSASSA-PKCS1-v1_5。
+- RSA-OAEP：RSA 的一个应用，用于使用公钥加密消息，用私钥来解密。
+- OAEP（Optimal Asymmetric Encryption Padding），表示算法利用了 Feistel 网络在加密前处理未加密的消息。
+- OAEP 主要将确定性 RSA 加密模式转换为概率性加密模式。
+- ECC（Elliptic-Curve Cryptography）：公钥密码系统，使用一个素数和一个椭圆曲线获得一对公钥和私钥，可用于签名/验证消息。ECC 的陷门函数被称为椭圆曲线离散对数问题（elliptic curve discrete logarithm problem）。ECC 被认为优于 RSA。虽然 RSA 和 ECC 在密码学意义上都很强，但 ECC 密钥比 RSA 密钥短，而且 ECC 密码学操作比 RSA 操作快。
+- ECDSA（Elliptic Curve Digital Signature Algorithm）：ECC 的一个应用，用于签名和验证消息。这个算法是数字签名算法（DSA，Digital Signature Algorithm）的一个椭圆曲线风格的变体。
+- ECDH（Elliptic Curve Diffie-Hellman）：ECC 的密钥生成和密钥协商应用，允许两方通过公开通信渠道建立共享的机密。这个算法是 Diffie-Hellman 密钥交换（DH，Diffie-Hellman key exchange）协议的一个椭圆曲线风格的变体。
+- AES（Advanced Encryption Standard）：对称密钥密码系统，使用派生自置换组合网络的分组密码加密和解密数据。AES 在不同模式下使用，不同模式算法的特性也不同。
+- AES-CTR：AES 的计数器模式（counter mode）。这个模式使用递增计数器生成其密钥流，其行为类似密文流。使用时必须为其提供一个随机数，用作初始化向量。AES-CTR 加密/解密可以并行。
+- AES-CBC：AES 的密码分组链模式（cipher block chaining mode）。在加密纯文本的每个分组之前，先使用之前密文分组求 XOR，也就是名字中的“链”。使用一个初始化向量作为第一个分组
+的 XOR 输入。
+- AES-GCM：AES 的伽罗瓦/计数器模式（Galois/Counter mode）。这个模式使用计数器和初始化向量生成一个值，这个值会与每个分组的纯文本计算 XOR。与 CBC 不同，这个模式的 XOR 输
+入不依赖之前分组密文。因此 GCM 模式可以并行。由于其卓越的性能，AES-GCM 在很多网络安全协议中得到了应用。
+- AES-KW：AES 的密钥包装模式（key wrapping mode）。这个算法将加密密钥包装为一个可移植且加密的格式，可以在不信任的渠道中传输。传输之后，接收方可以解包密钥。与其他 AES 模
+式不同，AES-KW 不需要初始化向量。
+- HMAC（Hash-Based Message Authentication Code）：用于生成消息认证码的算法，用于验证通过不可信网络接收的消息没有被修改过。两方使用散列函数和共享私钥来签名和验证消息。
+- KDF（Key Derivation Functions）：可以使用散列函数从主密钥获得一个或多个密钥的算法。KDF能够生成不同长度的密钥，也能把密钥转换为不同格式。
+- HKDF（HMAC-Based Key Derivation Function）：密钥推导函数，与高熵输入（如已有密钥）一起使用。
+- PBKDF2（Password-Based Key Derivation Function 2）：密钥推导函数，与低熵输入（如密钥字符串）一起使用。
+
+> 注意 CryptoKey 支持很多算法，但其中只有部分算法能够用于 SubtleCrypto 的方法。要了解哪个方法支持什么算法，可以参考 W3C 网站上 Web Cryptography API 规范的“Algorithm Overview”
+
+#### 第 24 章 网络请求与远程资源
+
